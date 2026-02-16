@@ -1,10 +1,9 @@
-import prisma from "@/lib/prisma";
 import Image from 'next/image';
 import { Link } from '@/navigation';
 import { getTranslations, getLocale } from 'next-intl/server';
 import { Sprout, Users, ArrowRight } from 'lucide-react';
 
-export const revalidate = 300;
+export const dynamic = 'force-static';
 
 export default async function ProductsPage() {
     const locale = await getLocale();

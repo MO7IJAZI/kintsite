@@ -55,7 +55,7 @@ type ProductCategoryNav = {
 };
 
 type HeaderProps = {
-    productCategories: ProductCategoryNav[];
+    productCategories?: ProductCategoryNav[];
 };
 
 export default function Header({ productCategories }: HeaderProps) {
@@ -67,6 +67,7 @@ export default function Header({ productCategories }: HeaderProps) {
     const [activeMobileSub, setActiveMobileSub] = useState<string | null>(null);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [categories, setCategories] = useState<ProductCategoryNav[]>(productCategories ?? []);
     const pathname = usePathname();
     const router = useRouter();
 
@@ -79,11 +80,27 @@ export default function Header({ productCategories }: HeaderProps) {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    useEffect(() => {
+        if (!productCategories && categories.length === 0) {
+            (async () => {
+                try {
+                    const res = await fetch('/api/public/product-categories', { next: { revalidate: 300 } });
+                    if (res.ok) {
+                        const data = await res.json();
+                        setCategories(data);
+                    }
+                } catch (_) {
+                    // ignore
+                }
+            })();
+        }
+    }, [productCategories, categories.length]);
+
     const switchLocale = (nextLocale: string) => {
         router.replace(pathname, {locale: nextLocale});
     };
 
-    const productOfferSubItems: SubItem[] = (productCategories ?? []).map((category) => {
+    const productOfferSubItems: SubItem[] = (categories ?? []).map((category) => {
         const name = locale === 'ar' ? (category.name_ar || category.name) : category.name;
         const description = locale === 'ar'
             ? (category.description_ar || category.description)

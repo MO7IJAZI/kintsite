@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import { Link } from '@/navigation';
 import { getTranslations } from 'next-intl/server';
 
+export const dynamic = 'force-static';
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'LocalRepresentatives' });

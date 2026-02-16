@@ -7,6 +7,8 @@ export const metadata = {
   description: 'Get to know KINT, our mission, and our ambition.',
 };
 
+export const dynamic = 'force-static';
+
 export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
     const t = await getTranslations('AboutNew');

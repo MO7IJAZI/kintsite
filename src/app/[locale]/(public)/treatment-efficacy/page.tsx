@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, CheckCircle2, FlaskConical, Sprout, Sun } from 'lucide-react';
 import { getTranslations, getLocale } from 'next-intl/server';
 
+export const dynamic = 'force-static';
+
 export default async function TreatmentEfficacyPage() {
     const t = await getTranslations('TreatmentEfficacy');
     const locale = await getLocale();
