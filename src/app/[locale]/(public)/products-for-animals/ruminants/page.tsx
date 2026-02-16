@@ -71,7 +71,7 @@ export default async function RuminantsPage() {
             const catName = isAr && product.category?.name_ar ? product.category?.name_ar : product.category?.name;
 
             return (
-              <Link key={product.id} href={`/product/${product.slug}`} className="card">
+              <Link key={product.id} href={`/product/${product.slug}` as any} className="card">
                 <div style={{ position: "relative", height: "200px", backgroundColor: "#fff" }}>
                   <Image
                     src={product.image || "/images/cat-biostimulants.png"}

@@ -630,7 +630,7 @@ export default function Header({ productCategories }: HeaderProps) {
                     bottom: 15px;
                     left: 0;
                     height: 35px;
-                    background: rgba(16, 185, 129, 0.08);
+                    background: rgba(233, 73, 108, 0.08);
                     border-radius: 12px;
                     pointer-events: none;
                     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
@@ -793,7 +793,7 @@ export default function Header({ productCategories }: HeaderProps) {
                 }
                 .dropdown-item:hover {
                     background: #ffffff;
-                    border-color: rgba(16, 185, 129, 0.1);
+                    border-color: rgba(233, 73, 108, 0.1);
                     box-shadow: 0 4px 12px -2px rgba(0,0,0,0.04);
                     transform: scale(1.02);
                 }
@@ -848,14 +848,14 @@ export default function Header({ productCategories }: HeaderProps) {
                     gap: 0.25rem;
                     margin-top: 0.5rem;
                     padding: 0.35rem 0.6rem;
-                    background: linear-gradient(135deg, var(--c-primary-light), rgba(16, 185, 129, 0.08));
+                    background: linear-gradient(135deg, var(--c-primary-light), rgba(233, 73, 108, 0.08));
                     color: var(--c-primary-dark);
                     font-size: 0.75rem;
                     font-weight: 600;
                     border-radius: 6px;
                     text-decoration: none;
                     transition: all 0.2s ease;
-                    border: 1px solid rgba(16, 185, 129, 0.15);
+                    border: 1px solid rgba(233, 73, 108, 0.15);
                 }
                 .item-sublink:hover {
                     background: var(--c-primary);
@@ -880,7 +880,7 @@ export default function Header({ productCategories }: HeaderProps) {
                 }
                 .dropdown-item.has-sublink:hover {
                     background: #ffffff;
-                    border-color: rgba(16, 185, 129, 0.1);
+                    border-color: rgba(233, 73, 108, 0.1);
                     box-shadow: 0 4px 12px -2px rgba(0,0,0,0.04);
                     transform: scale(1.02);
                 }
@@ -997,14 +997,14 @@ export default function Header({ productCategories }: HeaderProps) {
                     align-items: center;
                     gap: 0.5rem;
                     transition: all 0.3s var(--ease-out);
-                    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+                    box-shadow: 0 4px 15px rgba(233, 73, 108, 0.2);
                     position: relative;
                     overflow: hidden;
                 }
                 .btn-solid:hover {
                     background: var(--c-primary-dark);
                     transform: translateY(-2px);
-                    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+                    box-shadow: 0 8px 25px rgba(233, 73, 108, 0.3);
                 }
                 .btn-ghost {
                     color: var(--c-text-main);
@@ -1184,12 +1184,12 @@ export default function Header({ productCategories }: HeaderProps) {
                     margin-left: 1rem;
                     margin-top: 0.25rem;
                     padding: 0.5rem 0.75rem;
-                    background: linear-gradient(135deg, var(--c-primary-light), rgba(16, 185, 129, 0.08));
+                    background: linear-gradient(135deg, var(--c-primary-light), rgba(233, 73, 108, 0.08));
                     color: var(--c-primary-dark);
                     font-size: 0.8rem;
                     font-weight: 600;
                     border-radius: 8px;
-                    border: 1px solid rgba(16, 185, 129, 0.15);
+                    border: 1px solid rgba(233, 73, 108, 0.15);
                 }
                 .drawer-nested-link.sublink-mobile:hover {
                     background: var(--c-primary);

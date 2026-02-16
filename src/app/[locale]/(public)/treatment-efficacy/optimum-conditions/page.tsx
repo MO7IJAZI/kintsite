@@ -39,16 +39,16 @@ export default async function OptimumConditionsPage() {
                     <nav style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', color: '#64748b' }}>
                         <Link href="/" style={{ textDecoration: 'none', color: 'inherit' }}>{tNav('home')}</Link>
                         {isRtl ? <ChevronRight size={14} style={{ transform: 'rotate(180deg)' }} /> : <ChevronRight size={14} />}
-                        <Link href="/treatment-efficacy" style={{ textDecoration: 'none', color: 'inherit' }}>{tNav('treatmentEfficacy')}</Link>
+                        <Link href={"/treatment-efficacy" as any} style={{ textDecoration: 'none', color: 'inherit' }}>{tNav('treatmentEfficacy')}</Link>
                         {isRtl ? <ChevronRight size={14} style={{ transform: 'rotate(180deg)' }} /> : <ChevronRight size={14} />}
-                        <span style={{ color: '#059669', fontWeight: 600 }}>{t('breadcrumb')}</span>
+                        <span style={{ color: 'var(--primary)', fontWeight: 600 }}>{t('breadcrumb')}</span>
                     </nav>
                 </div>
             </div>
 
             {/* Hero Header */}
             <div style={{
-                background: 'linear-gradient(135deg, #064e3b 0%, #065f46 50%, #047857 100%)',
+                background: 'linear-gradient(135deg, #142346 0%, #1f2e5c 50%, #e9496c 100%)',
                 padding: '4rem 0',
                 color: 'white'
             }}>

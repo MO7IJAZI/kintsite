@@ -128,7 +128,7 @@ export default function EditDocumentPage() {
             const result = await updateDocument(documentId, data);
 
             if (result.success) {
-                router.push('/admin/documents');
+                router.push('/admin/documents' as any);
             } else {
                 setError(result.error || 'Failed to update document');
             }
@@ -368,7 +368,7 @@ export default function EditDocumentPage() {
                                 type="submit"
                                 disabled={saving}
                                 style={{
-                                    background: saving ? '#9ca3af' : '#10b981',
+                                    background: saving ? '#9ca3af' : 'var(--primary)',
                                     color: 'white',
                                     padding: '0.75rem 1.5rem',
                                     borderRadius: '0.375rem',
@@ -387,4 +387,3 @@ export default function EditDocumentPage() {
         </div>
     );
 }
-

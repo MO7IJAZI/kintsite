@@ -69,12 +69,12 @@ export default function DocumentsPage() {
     };
 
     const handleEdit = (id: string) => {
-        router.push(`/admin/documents/edit/${id}`);
+        router.push(`/admin/documents/edit/${id}` as any);
     };
 
     const handleCreate = () => {
         const nextUrl = category ? `/admin/documents/create?category=${encodeURIComponent(category)}` : '/admin/documents/create';
-        router.push(nextUrl);
+        router.push(nextUrl as any);
     };
 
     if (loading) {
@@ -97,7 +97,7 @@ export default function DocumentsPage() {
                     <button
                         onClick={handleCreate}
                         style={{
-                            background: '#10b981',
+                            background: 'var(--primary)',
                             color: 'white',
                             padding: '0.75rem 1.5rem',
                             borderRadius: '0.5rem',

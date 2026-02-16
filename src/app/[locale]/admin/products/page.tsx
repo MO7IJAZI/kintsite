@@ -18,7 +18,7 @@ export default async function AdminProducts() {
                     <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{t('title')}</h1>
                     <p style={{ color: 'var(--muted-foreground)' }}>{t('subtitle')}</p>
                 </div>
-                <Link href="/admin/products/new" className="btn btn-primary">
+                <Link href={"/admin/products/new" as any} className="btn btn-primary">
                     {t('addNew')}
                 </Link>
             </div>
@@ -54,14 +54,14 @@ export default async function AdminProducts() {
                                         borderRadius: '1rem',
                                         fontSize: '0.75rem',
                                         fontWeight: '700',
-                                        backgroundColor: product.isActive ? '#ecfdf5' : '#fff1f2',
-                                        color: product.isActive ? '#059669' : '#e11d48'
+                                        backgroundColor: product.isActive ? 'var(--primary-light)' : '#fff1f2',
+                                        color: product.isActive ? 'var(--primary-hover)' : '#e11d48'
                                     }}>
                                         {product.isActive ? tCommon('active') : tCommon('inactive')}
                                     </span>
                                 </td>
                                 <td style={{ padding: '1rem 1.5rem', textAlign: 'right' }}>
-                                    <Link href={`/admin/products/${product.id}`} style={{ color: 'var(--primary)', fontWeight: '600', marginRight: '1rem' }}>{tCommon('edit')}</Link>
+                                    <Link href={`/admin/products/${product.id}` as any} style={{ color: 'var(--primary)', fontWeight: '600', marginRight: '1rem' }}>{tCommon('edit')}</Link>
                                     <DeleteButton id={product.id} type="product" />
                                 </td>
                             </tr>

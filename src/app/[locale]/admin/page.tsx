@@ -77,9 +77,9 @@ export default async function AdminDashboard() {
     }
 
     const statCards = [
-        { label: t('totalProducts'), value: stats.products, icon: '📦', color: '#10b981', href: '/admin/products' },
+        { label: t('totalProducts'), value: stats.products, icon: '📦', color: '#e9496c', href: '/admin/products' },
         { label: t('categories'), value: stats.categories, icon: '📁', color: '#3b82f6', href: '/admin/categories' },
-        { label: t('cropGuides'), value: stats.crops, icon: '🌾', color: '#22c55e', href: '/admin/crops' },
+        { label: t('cropGuides'), value: stats.crops, icon: '🌾', color: '#e9496c', href: '/admin/crops' },
         { label: t('expertArticles'), value: stats.expertArticles, icon: '🎓', color: '#8b5cf6', href: '/admin/expert-articles' },
         { label: t('blogPosts'), value: stats.blogs, icon: '📝', color: '#f59e0b', href: '/admin/blog' },
         { label: t('jobOffers'), value: stats.jobOffers, icon: '💼', color: '#ec4899', href: '/admin/career' },
@@ -106,7 +106,7 @@ export default async function AdminDashboard() {
 
             <div className="stats-grid">
                 {statCards.map((stat, index) => (
-                    <Link key={index} href={stat.href} className="stat-card">
+                    <Link key={index} href={stat.href as any} className="stat-card">
                         <div className="stat-icon" style={{ backgroundColor: `${stat.color}15`, color: stat.color }}>
                             {stat.icon}
                         </div>
@@ -122,31 +122,31 @@ export default async function AdminDashboard() {
                 <div className="card quick-actions">
                     <h3>{t('quickActions')}</h3>
                     <div className="actions-grid">
-                        <Link href="/admin/products/new" className="action-btn">
+                        <Link href={"/admin/products/new" as any} className="action-btn">
                             <span className="action-icon">📦</span>
                             <span>{t('addProduct')}</span>
                         </Link>
-                        <Link href="/admin/crops/new" className="action-btn">
+                        <Link href={"/admin/crops/new" as any} className="action-btn">
                             <span className="action-icon">🌾</span>
                             <span>{t('addCropGuide')}</span>
                         </Link>
-                        <Link href="/admin/expert-articles/new" className="action-btn">
+                        <Link href={"/admin/expert-articles/new" as any} className="action-btn">
                             <span className="action-icon">🎓</span>
                             <span>{t('addArticle')}</span>
                         </Link>
-                        <Link href="/admin/blog/new" className="action-btn">
+                        <Link href={"/admin/blog/new" as any} className="action-btn">
                             <span className="action-icon">📝</span>
                             <span>{t('writeBlogPost')}</span>
                         </Link>
-                        <Link href="/admin/career" className="action-btn">
+                        <Link href={"/admin/career" as any} className="action-btn">
                             <span className="action-icon">💼</span>
                             <span>{t('manageJobs')}</span>
                         </Link>
-                        <Link href="/admin/company-data" className="action-btn">
+                        <Link href={"/admin/company-data" as any} className="action-btn">
                             <span className="action-icon">🏦</span>
                             <span>{t('editCompanyData')}</span>
                         </Link>
-                        <Link href="/admin/documents?category=mixing-table" className="action-btn">
+                        <Link href={"/admin/documents?category=mixing-table" as any} className="action-btn">
                             <span className="action-icon">📑</span>
                             <span>{t('manageMixingTablePdf')}</span>
                         </Link>
@@ -157,7 +157,7 @@ export default async function AdminDashboard() {
                     <h3>{t('recentInquiries')}</h3>
                     <div className="inquiries-list">
                         {stats.inquiries > 0 ? (
-                            <Link href="/admin/inquiries" className="inquiry-item">
+                            <Link href={"/admin/inquiries" as any} className="inquiry-item">
                                 <span className="inquiry-count">{stats.inquiries}</span>
                                 <span>{t('unreadInquiries')}</span>
                                 <span className="arrow">→</span>
@@ -172,7 +172,7 @@ export default async function AdminDashboard() {
                     <h3>{t('jobApplications')}</h3>
                     <div className="inquiries-list">
                         {stats.jobApplications > 0 ? (
-                            <Link href="/admin/applications" className="inquiry-item">
+                            <Link href={"/admin/applications" as any} className="inquiry-item">
                                 <span className="inquiry-count">{stats.jobApplications}</span>
                                 <span>{t('newApps')}</span>
                                 <span className="arrow">→</span>

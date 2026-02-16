@@ -16,7 +16,7 @@ interface Section {
 
 const colorThemes: Record<string, { bg: string; border: string; text: string; light: string }> = {
     blue: { bg: '#2563eb', border: '#3b82f6', text: '#ffffff', light: '#eff6ff' },
-    green: { bg: '#16a34a', border: '#22c55e', text: '#ffffff', light: '#f0fdf4' },
+    green: { bg: '#e9496c', border: '#d63d5c', text: '#ffffff', light: '#fce4e9' },
     purple: { bg: '#9333ea', border: '#a855f7', text: '#ffffff', light: '#faf5ff' },
     orange: { bg: '#ea580c', border: '#f97316', text: '#ffffff', light: '#fff7ed' },
     pink: { bg: '#db2777', border: '#ec4899', text: '#ffffff', light: '#fdf2f8' },

@@ -98,7 +98,7 @@ export default function FileUpload({ value, onChange, label, accept = "applicati
                         </button>
                     </div>
                     {fileName && (
-                        <p style={{ marginTop: '0.5rem', fontSize: '0.75rem', color: '#10b981', fontWeight: 600 }}>
+                        <p style={{ marginTop: '0.5rem', fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 600 }}>
                             ✓ {fileName}
                         </p>
                     )}

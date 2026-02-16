@@ -54,7 +54,7 @@ const AdminPages = async ({ searchParams }: { searchParams: any }) => {
                     </p>
                 </div>
 
-                <Link href="/admin/pages/new" className="btn btn-primary">
+                <Link href={"/admin/pages/new" as any} className="btn btn-primary">
                     {t('newPage')}
                 </Link>
             </div>
@@ -116,7 +116,7 @@ const AdminPages = async ({ searchParams }: { searchParams: any }) => {
                                     }}
                                 >
                                     <Link
-                                        href={`/admin/pages/${page.id}`}
+                                        href={`/admin/pages/${page.id}` as any}
                                         style={{ marginRight: "1rem" }}
                                     >
                                         {t('edit')}

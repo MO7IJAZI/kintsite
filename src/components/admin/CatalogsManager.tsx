@@ -351,8 +351,8 @@ export default function CatalogsManager({
                                     </td>
                                     <td style={{ padding: "1rem" }}>
                                         <span style={{
-                                            backgroundColor: catalog.category === "agricultural" ? "rgba(34, 197, 94, 0.1)" : "rgba(59, 130, 246, 0.1)",
-                                            color: catalog.category === "agricultural" ? "#22c55e" : "#3b82f6",
+                                            backgroundColor: catalog.category === "agricultural" ? "var(--primary-light)" : "rgba(20, 35, 70, 0.1)",
+                                            color: catalog.category === "agricultural" ? "var(--primary)" : "#142346",
                                             padding: "0.25rem 0.75rem",
                                             borderRadius: "1rem",
                                             fontSize: "0.85rem",
@@ -375,7 +375,7 @@ export default function CatalogsManager({
                                                 rel="noopener noreferrer"
                                                 style={{
                                                     padding: "0.5rem",
-                                                    backgroundColor: "#10b981",
+                                                    backgroundColor: "var(--primary)",
                                                     color: "white",
                                                     border: "none",
                                                     borderRadius: "0.5rem",

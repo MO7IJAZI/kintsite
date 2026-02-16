@@ -49,8 +49,8 @@ export default function ContactForm() {
                 <div style={{
                     padding: '1rem',
                     borderRadius: '0.5rem',
-                    backgroundColor: status.type === 'success' ? '#ecfdf5' : '#fff1f2',
-                    color: status.type === 'success' ? '#059669' : '#e11d48',
+                    backgroundColor: status.type === 'success' ? 'var(--primary-light)' : '#fff1f2',
+                    color: status.type === 'success' ? 'var(--primary-hover)' : '#e11d48',
                     fontWeight: '600',
                     marginBottom: '1rem'
                 }}>

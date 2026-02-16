@@ -5,10 +5,11 @@ import mime from 'mime';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { filename: string[] } }
+  context: { params: Promise<{ filename: string[] }> }
 ) {
   try {
-    const filename = params.filename.join('/');
+    const { filename: filenameParts } = await context.params;
+    const filename = filenameParts.join('/');
     // Prevent directory traversal
     if (filename.includes('..')) {
       return new NextResponse('Invalid path', { status: 400 });

@@ -23,7 +23,7 @@ export default async function CareerAdminPage({ params }: { params: Promise<{ lo
                 <div>
                     <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{t('title')}</h1>
                 </div>
-                <Link href="/admin/career/new" className="btn btn-primary" style={{
+                <Link href={"/admin/career/new" as any} className="btn btn-primary" style={{
                     display: 'flex',
                     alignItems: 'center',
                     gap: '0.5rem',
@@ -69,14 +69,14 @@ export default async function CareerAdminPage({ params }: { params: Promise<{ lo
                                         borderRadius: '1rem',
                                         fontSize: '0.75rem',
                                         fontWeight: '700',
-                                        backgroundColor: offer.isActive ? '#ecfdf5' : '#fff1f2',
-                                        color: offer.isActive ? '#059669' : '#e11d48'
+                                        backgroundColor: offer.isActive ? 'var(--primary-light)' : '#fff1f2',
+                                        color: offer.isActive ? 'var(--primary-hover)' : '#e11d48'
                                     }}>
                                         {offer.isActive ? t('active') : t('inactive')}
                                     </span>
                                 </td>
                                 <td style={{ padding: '1rem 1.5rem', textAlign: 'right' }}>
-                                    <Link href={`/admin/career/${offer.id}`} style={{ color: 'var(--primary)', fontWeight: '600', marginRight: '1rem' }}>
+                                    <Link href={`/admin/career/${offer.id}` as any} style={{ color: 'var(--primary)', fontWeight: '600', marginRight: '1rem' }}>
                                         {tCommon('edit')}
                                     </Link>
                                     <DeleteButton id={offer.id} type="job-offer" />

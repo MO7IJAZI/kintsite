@@ -51,7 +51,7 @@ export default function AdminCrops() {
                     <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{t('title')}</h1>
                     <p style={{ color: 'var(--muted-foreground)' }}>{t('subtitle')}</p>
                 </div>
-                <Link href="/admin/crops/new" className="btn btn-primary">
+                <Link href={"/admin/crops/new" as any} className="btn btn-primary">
                     {t('addNew')}
                 </Link>
             </div>
@@ -77,7 +77,7 @@ export default function AdminCrops() {
                                     </span>
                                 </td>
                                 <td style={{ padding: '1rem 1.5rem', textAlign: 'right' }}>
-                                    <Link href={`/admin/crops/${crop.id}`} style={{ color: 'var(--primary)', fontWeight: '600', marginRight: '1rem' }}>{t('edit')}</Link>
+                                    <Link href={`/admin/crops/${crop.id}` as any} style={{ color: 'var(--primary)', fontWeight: '600', marginRight: '1rem' }}>{t('edit')}</Link>
                                     <button onClick={() => handleDelete(crop.id)} style={{ color: '#ef4444', fontWeight: '600', background: 'none', border: 'none', cursor: 'pointer' }}>{t('delete')}</button>
                                 </td>
                             </tr>

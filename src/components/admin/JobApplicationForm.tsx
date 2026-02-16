@@ -67,7 +67,7 @@ export default function JobApplicationForm({ jobOfferId, jobTitle, onClose, onSu
                     .success-icon {
                         width: 48px;
                         height: 48px;
-                        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                        background: linear-gradient(135deg, #e9496c 0%, #d63d5c 100%);
                         color: white;
                         border-radius: 50%;
                         display: flex;

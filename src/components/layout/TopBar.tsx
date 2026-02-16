@@ -17,7 +17,7 @@ export default function TopBar() {
             }}>
                 <div style={{ display: 'flex', gap: '1.5rem' }}>
                     <span>KAFRI INTERNATIONAL - Leading Excellence in Agriculture</span>
-                    <Link href="/news" style={{ color: 'var(--accent)', fontWeight: '600' }}>
+                    <Link href={"/news" as any} style={{ color: 'var(--accent)', fontWeight: '600' }}>
                         Latest News: Innovations in Bio-fertilizers →
                     </Link>
                 </div>
@@ -33,7 +33,7 @@ export default function TopBar() {
                         <option value="pl">POLSKI</option>
                         <option value="es">ESPAÑOL</option>
                     </select>
-                    <Link href="/contact" style={{ opacity: 0.9 }}>Contact Us</Link>
+                    <Link href={"/contact" as any} style={{ opacity: 0.9 }}>Contact Us</Link>
                 </div>
             </div>
         </div>

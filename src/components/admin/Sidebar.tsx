@@ -105,7 +105,7 @@ export default function Sidebar() {
                     return (
                         <Link
                             key={item.href}
-                            href={item.href}
+                            href={item.href as any}
                             style={{
                                 display: 'flex',
                                 alignItems: 'center',
@@ -133,7 +133,7 @@ export default function Sidebar() {
 
             <div style={{ padding: '1.5rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
                 <Link
-                    href="/"
+                    href={"/" as any}
                     style={{
                         width: '100%',
                         textAlign: 'left',

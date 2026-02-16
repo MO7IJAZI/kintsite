@@ -41,10 +41,10 @@ export default function Hero() {
             display: 'inline-flex', 
             alignItems: 'center', 
             gap: 'var(--space-3)', 
-            backgroundColor: 'rgba(16, 185, 129, 0.15)', 
+            backgroundColor: 'rgba(233, 73, 108, 0.15)', 
             padding: '0.5rem 1.25rem', 
             borderRadius: 'var(--radius-2xl)',
-            border: '1px solid rgba(16, 185, 129, 0.3)',
+            border: '1px solid rgba(233, 73, 108, 0.3)',
             marginBottom: 'var(--space-8)',
             backdropFilter: 'blur(10px)'
           }}>
@@ -80,7 +80,7 @@ export default function Hero() {
               padding: '1.25rem 3rem', 
               fontSize: '1.1rem', 
               borderRadius: 'var(--radius-2xl)',
-              boxShadow: '0 15px 30px rgba(16, 185, 129, 0.3)'
+              boxShadow: '0 15px 30px rgba(233, 73, 108, 0.3)'
             }}>
               {tHomeNew('heroCta')}
               <ArrowRight size={20} style={{ marginLeft: isAr ? 0 : '0.5rem', marginRight: isAr ? '0.5rem' : 0 }} />

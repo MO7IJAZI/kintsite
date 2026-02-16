@@ -295,14 +295,14 @@ export default function ProductForm({
                             <span style={{ fontWeight: 700, fontSize: '0.9rem', color: isFeatured ? 'var(--primary)' : '#1e293b' }}>{t('showOnHomepage')}</span>
                         </label>
 
-                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer', padding: '0.75rem 1rem', backgroundColor: isOrganic ? '#ecfdf5' : 'white', borderRadius: '0.75rem', border: `1px solid ${isOrganic ? '#10b981' : '#e2e8f0'}`, transition: 'all 0.2s' }}>
+                        <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer', padding: '0.75rem 1rem', backgroundColor: isOrganic ? 'var(--primary-light)' : 'white', borderRadius: '0.75rem', border: `1px solid ${isOrganic ? 'var(--primary)' : '#e2e8f0'}`, transition: 'all 0.2s' }}>
                             <input 
                                 type="checkbox" 
                                 checked={isOrganic} 
                                 onChange={(e) => setIsOrganic(e.target.checked)}
-                                style={{ width: '18px', height: '18px', accentColor: '#10b981' }}
+                                style={{ width: '18px', height: '18px', accentColor: 'var(--primary)' }}
                             />
-                            <span style={{ fontWeight: 700, fontSize: '0.9rem', color: isOrganic ? '#059669' : '#1e293b' }}>{t('certifiedOrganic')}</span>
+                            <span style={{ fontWeight: 700, fontSize: '0.9rem', color: isOrganic ? 'var(--primary-hover)' : '#1e293b' }}>{t('certifiedOrganic')}</span>
                         </label>
                     </div>
                 </div>

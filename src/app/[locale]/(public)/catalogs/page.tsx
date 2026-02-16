@@ -56,7 +56,7 @@ export default async function CatalogsPage() {
                 {/* Abstract Background Elements */}
                 <div style={{
                     position: 'absolute', top: '-10%', right: '-5%', width: '400px', height: '400px',
-                    borderRadius: '50%', background: 'radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, rgba(255,255,255,0) 70%)'
+                    borderRadius: '50%', background: 'radial-gradient(circle, rgba(233, 73, 108, 0.05) 0%, rgba(255,255,255,0) 70%)'
                 }}></div>
             </section>
 
@@ -72,7 +72,7 @@ export default async function CatalogsPage() {
                             borderBottom: '2px solid #e2e8f0',
                             paddingBottom: '1rem'
                         }}>
-                            <BookOpen size={32} color="#10b981" />
+                            <BookOpen size={32} color="var(--primary)" />
                             <h2 style={{ fontSize: '2rem', fontWeight: 800, color: '#1e293b' }}>{t('agricultural')}</h2>
                         </div>
 
@@ -93,7 +93,7 @@ export default async function CatalogsPage() {
 
                     {/* Animal Section */}
                     <div>
-                        <div style={{ 
+                    <div style={{ 
                             display: 'flex', 
                             alignItems: 'center', 
                             gap: '1rem', 
@@ -101,7 +101,7 @@ export default async function CatalogsPage() {
                             borderBottom: '2px solid #e2e8f0',
                             paddingBottom: '1rem'
                         }}>
-                            <BookOpen size={32} color="#3b82f6" />
+                            <BookOpen size={32} color="#142346" />
                             <h2 style={{ fontSize: '2rem', fontWeight: 800, color: '#1e293b' }}>{t('animal')}</h2>
                         </div>
 
@@ -149,12 +149,12 @@ function CatalogCard({ catalog, t, isAr }: { catalog: any, t: any, isAr: boolean
                     width: '60px', 
                     height: '60px', 
                     borderRadius: '1rem', 
-                    backgroundColor: catalog.category === 'agricultural' ? '#ecfdf5' : '#eff6ff',
+                    backgroundColor: catalog.category === 'agricultural' ? 'var(--primary-light)' : 'rgba(20, 35, 70, 0.06)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     marginBottom: '1.5rem',
-                    color: catalog.category === 'agricultural' ? '#10b981' : '#3b82f6'
+                    color: catalog.category === 'agricultural' ? 'var(--primary)' : '#142346'
                 }}>
                     <FileDown size={30} />
                 </div>

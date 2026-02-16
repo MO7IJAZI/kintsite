@@ -46,7 +46,7 @@ function ArticleCard({ article, locale, t }: { article: Article, locale: string,
                     {excerpt}
                 </p>
                 <Link
-                    href={`/experts-forum/${article.slug}`}
+                    href={`/experts-forum/${article.slug}` as any}
                     className="article-card-link"
                 >
                     {t('readMore')}
@@ -178,7 +178,7 @@ export default async function ExpertsForumPage({ params }: { params: Promise<{ l
                     title={t('vegetable')}
                     icon={<Carrot size={24} />}
                     articles={vegetable}
-                    color="#16a34a"
+                    color="var(--primary)"
                     locale={locale}
                     t={t}
                 />

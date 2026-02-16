@@ -70,7 +70,7 @@ export default async function AgriculturalProductsPage() {
             }}>
                 <div className="container">
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', marginBottom: '1rem' }}>
-                        <Sprout size={32} color="#22c55e" />
+                        <Sprout size={32} color="var(--primary)" />
                         <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, margin: 0 }}>
                             {tNav('prodPlant')}
                         </h1>
@@ -96,7 +96,7 @@ export default async function AgriculturalProductsPage() {
                                     return (
                                         <Link
                                             key={category.id}
-                                            href={`/product-category/${category.slug}`}
+                                            href={`/product-category/${category.slug}` as any}
                                             style={{ textDecoration: 'none', color: 'inherit' }}
                                         >
                                             <div className="card hover-card" style={{
@@ -166,7 +166,7 @@ export default async function AgriculturalProductsPage() {
                                     const catName = isAr && product.category?.name_ar ? product.category.name_ar : product.category?.name;
 
                                     return (
-                                        <Link key={product.id} href={`/product/${product.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                        <Link key={product.id} href={`/product/${product.slug}` as any} style={{ textDecoration: 'none', color: 'inherit' }}>
                                             <div className="card hover-card" style={{
                                                 overflow: 'hidden',
                                                 borderRadius: '1.5rem',
@@ -192,8 +192,8 @@ export default async function AgriculturalProductsPage() {
                                                 <div style={{ padding: '1.5rem' }}>
                                                     {catName && (
                                                         <span style={{
-                                                            backgroundColor: 'rgba(34, 197, 94, 0.1)',
-                                                            color: '#22c55e',
+                                                            backgroundColor: 'var(--primary-light)',
+                                                            color: 'var(--primary)',
                                                             fontSize: '0.7rem',
                                                             padding: '0.25rem 0.6rem',
                                                             borderRadius: '1rem',

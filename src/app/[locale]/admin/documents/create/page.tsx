@@ -61,7 +61,7 @@ export default function CreateDocumentPage() {
             const result = await createDocument(data);
             
             if (result.success) {
-                router.push('/admin/documents');
+                router.push('/admin/documents' as any);
             } else {
                 setError(result.error || 'Failed to create document');
             }
@@ -259,7 +259,7 @@ export default function CreateDocumentPage() {
                                 type="submit"
                                 disabled={loading}
                                 style={{
-                                    background: loading ? '#9ca3af' : '#10b981',
+                                    background: loading ? '#9ca3af' : 'var(--primary)',
                                     color: 'white',
                                     padding: '0.75rem 1.5rem',
                                     borderRadius: '0.375rem',

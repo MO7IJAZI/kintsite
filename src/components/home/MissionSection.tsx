@@ -86,7 +86,7 @@ export default function MissionSection() {
               {/* Satellite 4: Quality */}
               <div style={{ position: 'absolute', top: '50%', right: 0, transform: 'translate(50%, -50%)' }}>
                 <div style={{ width: '50px', height: '50px', backgroundColor: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 5px 15px rgba(0,0,0,0.2)' }}>
-                  <ShieldCheck color="#10b981" size={24} />
+                  <ShieldCheck color="var(--primary)" size={24} />
                 </div>
               </div>
             </div>

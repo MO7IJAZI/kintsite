@@ -412,7 +412,7 @@ export default function ApplicationsAdminPage() {
                 }
 
                 .application-item.hired {
-                    border-left: 4px solid #10b981;
+                    border-left: 4px solid var(--primary);
                 }
 
                 .app-info {
@@ -520,8 +520,8 @@ export default function ApplicationsAdminPage() {
                 }
 
                 .btn-hire:hover {
-                    color: #10b981;
-                    border-color: #10b981;
+                    color: var(--primary);
+                    border-color: var(--primary);
                 }
 
                 .btn-reject:hover {

@@ -26,7 +26,7 @@ export default async function AdminExpertArticles() {
                     <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{t('title')}</h1>
                     <p style={{ color: 'var(--muted-foreground)' }}>{t('description')}</p>
                 </div>
-                <Link href="/admin/expert-articles/new" className="btn btn-primary">
+                <Link href={"/admin/expert-articles/new" as any} className="btn btn-primary">
                     {t('newArticle')}
                 </Link>
             </div>
@@ -59,14 +59,14 @@ export default async function AdminExpertArticles() {
                                         borderRadius: '1rem',
                                         fontSize: '0.75rem',
                                         fontWeight: '700',
-                                        backgroundColor: article.isPublished ? '#ecfdf5' : '#f3f4f6',
-                                        color: article.isPublished ? '#059669' : '#6b7280'
+                                        backgroundColor: article.isPublished ? 'var(--primary-light)' : '#f3f4f6',
+                                        color: article.isPublished ? 'var(--primary-hover)' : '#6b7280'
                                     }}>
                                         {article.isPublished ? t('statusPublished') : t('statusDraft')}
                                     </span>
                                 </td>
                                 <td style={{ padding: '1rem 1.5rem', textAlign: 'right' }}>
-                                    <Link href={`/admin/expert-articles/${article.id}`} style={{ color: 'var(--primary)', fontWeight: '600', marginRight: '1rem' }}>{t('edit')}</Link>
+                                    <Link href={`/admin/expert-articles/${article.id}` as any} style={{ color: 'var(--primary)', fontWeight: '600', marginRight: '1rem' }}>{t('edit')}</Link>
                                     <DeleteButton id={article.id} type="expert-article" />
                                 </td>
                             </tr>

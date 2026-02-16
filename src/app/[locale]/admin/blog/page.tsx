@@ -17,7 +17,7 @@ export default async function AdminBlog() {
                     <h1 style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>{t('title')}</h1>
                     <p style={{ color: 'var(--muted-foreground)' }}>{t('subtitle')}</p>
                 </div>
-                <Link href="/admin/blog/new" className="btn btn-primary">
+                <Link href={"/admin/blog/new" as any} className="btn btn-primary">
                     {t('newArticle')}
                 </Link>
             </div>
@@ -46,14 +46,14 @@ export default async function AdminBlog() {
                                         borderRadius: '1rem',
                                         fontSize: '0.75rem',
                                         fontWeight: '700',
-                                        backgroundColor: post.isPublished ? '#ecfdf5' : '#f3f4f6',
-                                        color: post.isPublished ? '#059669' : '#6b7280'
+                                        backgroundColor: post.isPublished ? 'var(--primary-light)' : '#f3f4f6',
+                                        color: post.isPublished ? 'var(--primary-hover)' : '#6b7280'
                                     }}>
                                         {post.isPublished ? t('published') : t('draft')}
                                     </span>
                                 </td>
                                 <td style={{ padding: '1rem 1.5rem', textAlign: 'right' }}>
-                                    <Link href={`/admin/blog/${post.id}`} style={{ color: 'var(--primary)', fontWeight: '600', marginRight: '1rem' }}>{t('edit')}</Link>
+                                    <Link href={`/admin/blog/${post.id}` as any} style={{ color: 'var(--primary)', fontWeight: '600', marginRight: '1rem' }}>{t('edit')}</Link>
                                     <DeleteButton id={post.id} type="blog" />
                                 </td>
                             </tr>

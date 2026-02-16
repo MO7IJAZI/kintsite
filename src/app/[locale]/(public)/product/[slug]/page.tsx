@@ -238,12 +238,12 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
                                         alignItems: 'center',
                                         gap: '0.5rem',
                                         padding: '0.75rem 1.5rem',
-                                        backgroundColor: '#ecfdf5',
-                                        color: '#059669',
+                                        backgroundColor: 'var(--primary-light)',
+                                        color: 'var(--primary-hover)',
                                         borderRadius: '50px',
                                         fontWeight: 700,
                                         fontSize: '0.9rem',
-                                        border: '1px solid #10b981'
+                                        border: '1px solid var(--primary)'
                                     }}>
                                         <span style={{ fontSize: '1.2rem' }}>🌿</span> {t('certifiedOrganic').toUpperCase()}
                                     </div>
