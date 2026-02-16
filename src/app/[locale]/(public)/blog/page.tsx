@@ -43,7 +43,13 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
                         return (
                             <div key={post.id} className="card" style={{ display: 'grid', gridTemplateColumns: 'minmax(300px, 1.2fr) 2fr', gap: '0', overflow: 'hidden' }}>
                                 <div style={{ position: 'relative', height: '100%', minHeight: '350px' }}>
-                                    <Image src={post.image || '/images/hero.png'} alt={title} fill style={{ objectFit: 'cover' }} />
+                                    <Image 
+                                        src={post.image || '/images/hero.png'} 
+                                        alt={title} 
+                                        fill 
+                                        style={{ objectFit: 'cover' }} 
+                                        sizes="(max-width: 768px) 100vw, 50vw"
+                                    />
                                 </div>
                                 <div style={{ padding: '3.5rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                                     <div style={{ color: 'var(--primary)', fontWeight: '600', marginBottom: '1rem', fontSize: '0.875rem' }}>

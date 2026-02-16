@@ -1236,6 +1236,16 @@
     "ourAgents": "Our Global Agents",
     "agentsSubtitle": "Trusted partners representing KINT worldwide."
   },
+  "NotFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+    "backHome": "Back to Home"
+  },
+  "Error": {
+    "title": "Something went wrong!",
+    "description": "We apologize for the inconvenience. Please try again later.",
+    "retry": "Try again"
+  },
   "ProductsPage": {
     "title": "Our Solutions",
     "subtitle": "Select a production sector to view specialized products and technical guides.",

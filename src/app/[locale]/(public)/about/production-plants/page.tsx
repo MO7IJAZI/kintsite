@@ -2,6 +2,16 @@
 
 import Image from 'next/image';
 import { useTranslations, useLocale } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
+
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+    const { locale } = await params;
+    const t = await getTranslations({ locale, namespace: 'ProductionPlants' });
+    return {
+        title: `${t('title')} | KINT`,
+        description: t('subtitle'),
+    };
+}
 
 export default function ProductionPlantsPage() {
     const t = useTranslations('ProductionPlants');

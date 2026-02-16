@@ -31,6 +31,7 @@ function ArticleCard({ article, locale, t }: { article: Article, locale: string,
                         alt={title}
                         fill
                         style={{ objectFit: 'cover' }}
+                        sizes="(max-width: 768px) 100vw, 33vw"
                     />
                 ) : (
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b' }}>
