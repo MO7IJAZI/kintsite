@@ -18,17 +18,21 @@ export default async function OptimumConditionsPage() {
     const locale = await getLocale();
     const isRtl = locale === 'ar';
 
-    // Get the PDF document from database
-    const prismaDocument = (prisma as unknown as { document: { findFirst: (args: unknown) => Promise<{ id: string; title: string; title_ar: string | null; filePath: string } | null> } }).document;
-    const document = await prismaDocument.findFirst({
-        where: {
-            category: 'optimum-conditions',
-            isActive: true
-        },
-        orderBy: {
-            createdAt: 'desc'
-        }
-    });
+    let document: { id: string; title: string; title_ar: string | null; filePath: string } | null = null;
+    try {
+        const prismaDocument = (prisma as unknown as { document: { findFirst: (args: unknown) => Promise<{ id: string; title: string; title_ar: string | null; filePath: string } | null> } }).document;
+        document = await prismaDocument.findFirst({
+            where: {
+                category: 'optimum-conditions',
+                isActive: true
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
+        });
+    } catch (_) {
+        document = null;
+    }
 
     return (
         <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }} dir={isRtl ? 'rtl' : 'ltr'}>

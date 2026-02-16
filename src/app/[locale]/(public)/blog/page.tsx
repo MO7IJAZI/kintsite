@@ -10,10 +10,15 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
     const t = await getTranslations('Blog');
     const isRtl = locale === 'ar';
 
-    const posts = await prisma.blogPost.findMany({
-        where: { isPublished: true },
-        orderBy: { publishedAt: 'desc' }
-    });
+    let posts: any[] = [];
+    try {
+        posts = await prisma.blogPost.findMany({
+            where: { isPublished: true },
+            orderBy: { publishedAt: 'desc' }
+        });
+    } catch (_) {
+        posts = [];
+    }
 
     return (
         <div className="section" dir={isRtl ? 'rtl' : 'ltr'}>

@@ -6,33 +6,37 @@ import { getTranslations, getLocale } from "next-intl/server";
 export const revalidate = 300;
 
 async function getDescendantCategoryIds(rootSlug: string) {
-  const root = await prisma.category.findUnique({
-    where: { slug: rootSlug },
-    select: { id: true },
-  });
+  try {
+    const root = await prisma.category.findUnique({
+      where: { slug: rootSlug },
+      select: { id: true },
+    });
 
-  if (!root) return [];
+    if (!root) return [];
 
-  const categories = await prisma.category.findMany({
-    where: { isActive: true },
-    select: { id: true, parentId: true },
-  });
+    const categories = await prisma.category.findMany({
+      where: { isActive: true },
+      select: { id: true, parentId: true },
+    });
 
-  const ids = new Set<string>([root.id]);
-  let added = true;
+    const ids = new Set<string>([root.id]);
+    let added = true;
 
-  while (added) {
-    added = false;
-    for (const c of categories) {
-      if (!c.parentId) continue;
-      if (!ids.has(c.parentId)) continue;
-      if (ids.has(c.id)) continue;
-      ids.add(c.id);
-      added = true;
+    while (added) {
+      added = false;
+      for (const c of categories) {
+        if (!c.parentId) continue;
+        if (!ids.has(c.parentId)) continue;
+        if (ids.has(c.id)) continue;
+        ids.add(c.id);
+        added = true;
+      }
     }
-  }
 
-  return Array.from(ids);
+    return Array.from(ids);
+  } catch (_) {
+    return [];
+  }
 }
 
 export default async function PoultryPage() {
@@ -43,13 +47,18 @@ export default async function PoultryPage() {
   const isAr = locale === "ar";
 
   const categoryIds = await getDescendantCategoryIds("poultry");
-  const products = categoryIds.length
-    ? await prisma.product.findMany({
+  let products: any[] = [];
+  if (categoryIds.length) {
+    try {
+      products = await prisma.product.findMany({
         where: { isActive: true, categoryId: { in: categoryIds } },
         include: { category: true },
         orderBy: { order: "asc" },
-      })
-    : [];
+      });
+    } catch (_) {
+      products = [];
+    }
+  }
 
   return (
     <div className="section" dir={isAr ? "rtl" : "ltr"}>

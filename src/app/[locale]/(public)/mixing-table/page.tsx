@@ -18,16 +18,21 @@ export default async function MixingTable() {
     const isRtl = locale === 'ar';
     const dir = isRtl ? 'rtl' : 'ltr';
 
-    const prismaDocument = (prisma as unknown as { document: { findFirst: (args: unknown) => Promise<{ filePath: string } | null> } }).document;
-    const document = await prismaDocument.findFirst({
-        where: {
-            category: 'mixing-table',
-            isActive: true
-        },
-        orderBy: {
-            createdAt: 'desc'
-        }
-    });
+    let document: { filePath: string } | null = null;
+    try {
+        const prismaDocument = (prisma as unknown as { document: { findFirst: (args: unknown) => Promise<{ filePath: string } | null> } }).document;
+        document = await prismaDocument.findFirst({
+            where: {
+                category: 'mixing-table',
+                isActive: true
+            },
+            orderBy: {
+                createdAt: 'desc'
+            }
+        });
+    } catch (_) {
+        document = null;
+    }
 
     const pdfHref = document?.filePath || "/documents/optimum-conditions-foliar-treatments.pdf";
 

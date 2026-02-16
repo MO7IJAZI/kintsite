@@ -18,7 +18,12 @@ export default async function HeadquarterPage({ params }: { params: Promise<{ lo
   const t = await getTranslations({ locale, namespace: 'Headquarter' });
   const isRtl = locale === 'ar';
   
-  const headquarter = await prisma.headquarter.findFirst();
+  let headquarter: any = null;
+  try {
+    headquarter = await prisma.headquarter.findFirst();
+  } catch (_) {
+    headquarter = null;
+  }
 
   const getEmbedUrl = () => {
     let q = '';

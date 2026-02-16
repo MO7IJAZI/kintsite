@@ -18,10 +18,15 @@ export default async function CertificatesPage({ params }: { params: Promise<{ l
     const t = await getTranslations({ locale, namespace: 'About' });
     const isRtl = locale === 'ar';
 
-    const certificates = await prisma.certificate.findMany({
-        where: { isActive: true },
-        orderBy: { order: 'asc' },
-    });
+    let certificates: any[] = [];
+    try {
+        certificates = await prisma.certificate.findMany({
+            where: { isActive: true },
+            orderBy: { order: 'asc' },
+        });
+    } catch (_) {
+        certificates = [];
+    }
 
     return (
         <div className={`about-page certificates-page ${isRtl ? 'rtl' : 'ltr'}`} dir={isRtl ? 'rtl' : 'ltr'}>
