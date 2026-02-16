@@ -18,9 +18,26 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4">
-      <h2 className="text-3xl font-bold text-gray-800 mb-4">{t('title')}</h2>
-      <p className="text-gray-600 max-w-md mb-8">
+    <div style={{
+      minHeight: '70vh',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      textAlign: 'center',
+      padding: '0 1rem'
+    }}>
+      <h2 style={{
+        fontSize: '1.875rem',
+        fontWeight: 'bold',
+        color: '#1f2937',
+        marginBottom: '1rem'
+      }}>{t('title')}</h2>
+      <p style={{
+        color: '#4b5563',
+        maxWidth: '28rem',
+        marginBottom: '2rem'
+      }}>
         {t('description')}
       </p>
       <button
@@ -28,7 +45,16 @@ export default function Error({
           // Attempt to recover by trying to re-render the segment
           () => reset()
         }
-        className="bg-primary text-white px-8 py-3 rounded-full font-semibold hover:bg-primary/90 transition-colors"
+        style={{
+          backgroundColor: 'var(--primary)',
+          color: 'white',
+          padding: '0.75rem 2rem',
+          borderRadius: '9999px',
+          fontWeight: '600',
+          border: 'none',
+          cursor: 'pointer',
+          transition: 'opacity 0.2s'
+        }}
       >
         {t('retry')}
       </button>

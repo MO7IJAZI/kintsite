@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { auth } from "@/auth";
 import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
@@ -20,6 +21,15 @@ export async function createJobApplication(formData: FormData) {
     let cvUrl = "";
 
     if (cvFile && cvFile.size > 0) {
+        // Validate File
+        const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+        if (!allowedTypes.includes(cvFile.type)) {
+             throw new Error("Invalid file type. Only PDF and Word documents are allowed.");
+        }
+        if (cvFile.size > 5 * 1024 * 1024) { // 5MB
+             throw new Error("File too large. Max 5MB.");
+        }
+
         const buffer = Buffer.from(await cvFile.arrayBuffer());
         const filename = Date.now() + "-" + cvFile.name.replace(/\s+/g, "-");
         const uploadDir = path.join(process.cwd(), "public", "uploads", "cvs");
@@ -80,14 +90,26 @@ const getJobApplicationByIdCached = unstable_cache(
 );
 
 export async function getJobApplications() {
+    const session = await auth();
+    if (!session) {
+        throw new Error("Unauthorized");
+    }
     return getJobApplicationsCached();
 }
 
 export async function getJobApplicationById(id: string) {
+    const session = await auth();
+    if (!session) {
+        throw new Error("Unauthorized");
+    }
     return getJobApplicationByIdCached(id);
 }
 
 export async function updateJobApplicationStatus(id: string, status: string, notes?: string) {
+    const session = await auth();
+    if (!session) {
+        throw new Error("Unauthorized");
+    }
     await prisma.jobApplication.update({
         where: { id },
         data: {

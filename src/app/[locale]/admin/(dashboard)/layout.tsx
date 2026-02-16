@@ -1,10 +1,17 @@
 import Sidebar from "@/components/admin/Sidebar";
+import { auth } from "@/auth";
+import { redirect } from "@/navigation";
 
-export default function AdminLayout({
+export default async function AdminLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const session = await auth();
+    if (!session) {
+        redirect('/admin/login' as any);
+    }
+
     return (
         <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f3f4f6' }}>
             <Sidebar />

@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import { auth } from "@/auth";
 import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
 
 interface DownloadInput {
@@ -10,6 +11,10 @@ interface DownloadInput {
 }
 
 export async function createProduct(formData: FormData) {
+    const session = await auth();
+    if (!session) {
+        throw new Error("Unauthorized");
+    }
     const name = formData.get("name") as string;
     const slug = formData.get("slug") as string;
     const sku = formData.get("sku") as string;
@@ -185,6 +190,10 @@ export async function updateProduct(id: string, formData: FormData) {
 }
 
 export async function deleteProduct(id: string) {
+    const session = await auth();
+    if (!session) {
+        throw new Error("Unauthorized");
+    }
     await prisma.product.delete({
         where: { id },
     });

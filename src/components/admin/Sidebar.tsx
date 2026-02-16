@@ -2,6 +2,7 @@
 
 import { Link, usePathname, useRouter } from '@/navigation';
 import { useLocale, useTranslations } from 'next-intl';
+import { signOut } from "next-auth/react";
 
 export default function Sidebar() {
     const pathname = usePathname();
@@ -150,7 +151,7 @@ export default function Sidebar() {
                     <span>🏠</span> {t('backToSite')}
                 </Link>
                 <button
-                    onClick={() => { }}
+                    onClick={() => signOut({ callbackUrl: `/${locale}/admin/login` })}
                     style={{
                         width: '100%',
                         textAlign: 'left',
