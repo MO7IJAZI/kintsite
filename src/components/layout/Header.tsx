@@ -107,46 +107,46 @@ export default function Header({ productCategories }: HeaderProps) {
     });
 
     const animalProductsSubItems: SubItem[] = [
-        { name: t('poultry'), href: '/products-for-animals/poultry', icon: <ChevronRight size={14} /> },
-        { name: t('ruminants'), href: '/products-for-animals/ruminants', icon: <ChevronRight size={14} /> },
-        { name: t('swine'), href: '/products-for-animals/swine', icon: <ChevronRight size={14} /> },
+        { name: t('poultry'), href: '/products-for-animals/poultry' as any, icon: <ChevronRight size={14} /> },
+        { name: t('ruminants'), href: '/products-for-animals/ruminants' as any, icon: <ChevronRight size={14} /> },
+        { name: t('swine'), href: '/products-for-animals/swine' as any, icon: <ChevronRight size={14} /> },
     ];
 
     const navItems: NavItem[] = [
         {
             name: t('agriculturalProducts'),
-            href: '/product-category/agricultural',
+            href: '/product-category/agricultural' as any,
             subItems: [
                 { 
                     name: t('agriculturalProducts'), 
-                    href: '/product-category/agricultural',
+                    href: '/product-category/agricultural' as any,
                     subItems: productOfferSubItems.length ? productOfferSubItems : undefined,
                     icon: <Sprout size={18} />
                 },
                 { 
                     name: t('cropGuides'), 
-                    href: '/product-category/crop-guides', 
+                    href: '/product-category/crop-guides' as any, 
                     description: t('cropGuidesDesc'), 
                     icon: <FileText size={18} /> 
                 },
                 { 
                     name: t('treatmentEfficacy'), 
-                    href: '/treatment-efficacy/optimum-conditions', 
+                    href: '/treatment-efficacy/optimum-conditions' as any, 
                     description: t('provenTreatmentResults'), 
                     icon: <Microscope size={18} />,
-                    subLink: { name: t('optimumConditions'), href: '/treatment-efficacy/optimum-conditions' }
+                    subLink: { name: t('optimumConditions'), href: '/treatment-efficacy/optimum-conditions' as any }
                 },
-                { name: t('mixingTable'), href: '/mixing-table', description: t('mixingTableDesc'), icon: <FlaskConical size={18} /> },
+                { name: t('mixingTable'), href: '/mixing-table' as any, description: t('mixingTableDesc'), icon: <FlaskConical size={18} /> },
             ]
         },
         {
             name: t('animalProducts'),
-            href: '/product-category/animal',
+            href: '/product-category/animal' as any,
             subItems: [
-                { name: t('veterinaryProducts'), href: '/product-category/veterinary', icon: <Microscope size={18} /> },
+                { name: t('veterinaryProducts'), href: '/product-category/veterinary' as any, icon: <Microscope size={18} /> },
                 { 
                     name: t('byAnimalType'), 
-                    href: '/product-category/by-animal', 
+                    href: '/product-category/by-animal' as any, 
                     icon: <Users size={18} />,
                     subItems: animalProductsSubItems
                 }
@@ -154,31 +154,31 @@ export default function Header({ productCategories }: HeaderProps) {
         },
         {
             name: t('about'),
-            href: '/about',
+            href: '/about' as any,
             subItems: [
-                { name: t('about'), href: '/about', icon: <Users size={18} /> },
-                { name: t('rdCentre'), href: '/about/rd-centre', icon: <Microscope size={18} /> },
-                { name: t('productionPlants'), href: '/about/production-plants', icon: <Factory size={18} /> },
-                { name: t('logisticsCentre'), href: '/about/logistics-centre', icon: <Truck size={18} /> },
-                { name: t('companyData'), href: '/about/company-data', icon: <FileText size={18} /> },
-                { name: t('career'), href: '/about/career', icon: <Users size={18} /> },
-                { name: t('certificates'), href: '/about/certificates', icon: <Award size={18} /> },
-                { name: t('awards'), href: '/about/awards', icon: <Award size={18} /> },
+                { name: t('about'), href: '/about' as any, icon: <Users size={18} /> },
+                { name: t('rdCentre'), href: '/about/rd-centre' as any, icon: <Microscope size={18} /> },
+                { name: t('productionPlants'), href: '/about/production-plants' as any, icon: <Factory size={18} /> },
+                { name: t('logisticsCentre'), href: '/about/logistics-centre' as any, icon: <Truck size={18} /> },
+                { name: t('companyData'), href: '/about/company-data' as any, icon: <FileText size={18} /> },
+                { name: t('career'), href: '/about/career' as any, icon: <Users size={18} /> },
+                { name: t('certificates'), href: '/about/certificates' as any, icon: <Award size={18} /> },
+                { name: t('awards'), href: '/about/awards' as any, icon: <Award size={18} /> },
             ]
         },
-        { name: t('news'), href: '/blog' },
+        { name: t('news'), href: '/blog' as any },
         {
             name: t('catalogs'),
-            href: '/catalogs',
+            href: '/catalogs' as any,
         },
         {
             name: t('contact'),
-            href: '/contact',
+            href: '/contact' as any,
             subItems: [
-                { name: t('companyHeadquarter'), href: '/contact/headquarter', icon: <Factory size={18} /> },
-                { name: t('exportDepartment'), href: '/contact/export-department', icon: <Globe size={18} /> },
-                { name: t('localRepresentatives'), href: '/contact/local-representatives', icon: <Users size={18} /> },
-                { name: t('contactForm'), href: '/contact', icon: <Mail size={18} /> },
+                { name: t('companyHeadquarter'), href: '/contact/headquarter' as any, icon: <Factory size={18} /> },
+                { name: t('exportDepartment'), href: '/contact/export-department' as any, icon: <Globe size={18} /> },
+                { name: t('localRepresentatives'), href: '/contact/local-representatives' as any, icon: <Users size={18} /> },
+                { name: t('contactForm'), href: '/contact' as any, icon: <Mail size={18} /> },
             ]
         }
     ];
@@ -242,8 +242,6 @@ export default function Header({ productCategories }: HeaderProps) {
                                                 <div
                                                     key={sub.name}
                                                     className="dropdown-item-wrapper"
-                                                    onMouseEnter={() => sub.subItems && setActiveNestedDropdown(sub.name)}
-                                                    onMouseLeave={() => sub.subItems && setActiveNestedDropdown(null)}
                                                     style={{ animationDelay: `${idx * 0.03}s` }}
                                                 >
                                                     {sub.subLink ? (
@@ -270,14 +268,12 @@ export default function Header({ productCategories }: HeaderProps) {
                                                                 <div className="item-name">{sub.name}</div>
                                                                 {sub.description && <div className="item-desc">{sub.description}</div>}
                                                             </div>
-                                                            {sub.subItems && <ChevronRight size={14} className="item-chevron" />}
                                                         </Link>
                                                     )}
-
                                                     {sub.subItems && (
-                                                        <div className={`nested-panel ${activeNestedDropdown === sub.name ? 'open' : ''}`}>
+                                                        <div className="nested-inline">
                                                             {sub.subItems.map((nested) => (
-                                                                <Link key={nested.name} href={nested.href} className="nested-link">
+                                                                <Link key={nested.name} href={nested.href} className="nested-inline-link">
                                                                     {nested.name}
                                                                 </Link>
                                                             ))}
@@ -930,99 +926,28 @@ export default function Header({ productCategories }: HeaderProps) {
                     color: var(--c-primary);
                 }
 
-                /* Nested Panel */
-                .nested-panel {
-                    position: absolute;
-                    left: 100%;
-                    top: 0;
-                    margin-left: 10px;
-                    background: rgba(255, 255, 255, 0.98);
-                    backdrop-filter: blur(24px);
-                    border-radius: 20px;
-                    box-shadow: 
-                        0 15px 35px -5px rgba(0,0,0,0.1),
-                        0 0 0 1px rgba(0,0,0,0.03);
-                    min-width: 240px;
-                    padding: 0.75rem;
-                    opacity: 0;
-                    visibility: hidden;
-                    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-                    transform: translateX(15px);
-                    z-index: 110;
-                    pointer-events: none;
-                    max-height: calc(100vh - 160px);
-                    overflow-y: auto;
-                    scrollbar-width: none;
+                .nested-inline {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                    gap: 0.4rem;
+                    padding: 0.5rem 0.5rem 0 3.5rem;
                 }
-                .main-header.rtl .nested-panel {
-                    right: 100%;
-                    left: auto;
-                    margin-right: 10px;
-                    margin-left: 0;
-                    transform: translateX(-15px);
-                }
-                .nested-panel::-webkit-scrollbar {
-                    display: none;
-                }
-
-                /* Open nested panel to the left if parent dropdown is near right edge */
-                .nav-item-group:nth-last-child(-n+2) .nested-panel {
-                    left: auto;
-                    right: 100%;
-                    margin-left: 0;
-                    margin-right: 10px;
-                    transform: translateX(-15px);
-                }
-
-                .nested-panel.open {
-                    opacity: 1;
-                    visibility: visible;
-                    transform: translateX(0);
-                    pointer-events: all;
-                }
-
-                /* Override transform for right-side nested panels when open */
-                .nav-item-group:nth-last-child(-n+2) .nested-panel.open {
-                    transform: translateX(0);
-                }
-                .nested-panel::before {
-                    content: '';
-                    position: absolute;
-                    top: 0; left: 0; right: 0;
-                    height: 4px;
-                    background: linear-gradient(90deg, var(--c-primary), var(--c-primary-dark));
-                    border-radius: 20px 20px 0 0;
-                }
-                .nested-panel::after {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: -20px;
-                    width: 20px;
-                    height: 100%;
-                }
-                .nav-item-group:nth-last-child(-n+2) .nested-panel::after {
-                    left: auto;
-                    right: -20px;
-                }
-                .nested-link {
+                .nested-inline-link {
                     display: block;
-                    padding: 0.75rem 1rem;
+                    padding: 0.4rem 0.6rem;
                     text-decoration: none;
                     color: var(--c-text-muted);
-                    font-size: 0.9rem;
+                    font-size: 0.85rem;
                     font-weight: 600;
-                    border-radius: 12px;
-                    transition: all 0.25s;
+                    border-radius: 8px;
+                    transition: all 0.2s var(--ease-out);
+                    border: 1px solid transparent;
+                    background: #fff;
                 }
-                .nested-link:hover {
+                .nested-inline-link:hover {
                     background: var(--c-primary-light);
                     color: var(--c-primary-dark);
-                    padding-left: 1.25rem;
-                }
-                .main-header.rtl .nested-link:hover {
-                    padding-left: 1rem;
-                    padding-right: 1.25rem;
+                    border-color: rgba(233,73,108,0.18);
                 }
 
                 /* --- BUTTONS --- */
