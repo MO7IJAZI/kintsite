@@ -14,7 +14,7 @@
   },
   "scripts": {
     "dev": "tsx server.ts",
-    "build": "node scripts/fix-permissions.js && prisma generate && prisma migrate deploy && prisma db seed && cross-env NODE_OPTIONS=--max-old-space-size=4096 next build && node scripts/post-build.js",
+    "build": "prisma generate && prisma migrate deploy && prisma db seed && cross-env NODE_OPTIONS=--max-old-space-size=4096 next build && node scripts/post-build.js",
     "start": "node server.js",
     "lint": "next lint",
     "hostinger:setup": "npx prisma generate",
