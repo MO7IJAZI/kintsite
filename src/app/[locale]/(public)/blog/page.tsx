@@ -65,21 +65,32 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
                             {t('noArticles')}
                         </div>
                     )}
-                    {posts.length === 0 && fallbackItems.length > 0 && fallbackItems.map((item: any, idx: number) => (
-                        <a key={`fallback-${idx}`} href={item.link} className="card" style={{ textDecoration: 'none', color: 'inherit' }} target="_blank" rel="noopener noreferrer">
-                            <div style={{ position: 'relative', height: '100%', minHeight: '220px' }}>
-                                <Image src={item.image || '/images/hero.png'} alt={item.title} fill style={{ objectFit: 'cover' }} />
-                            </div>
-                            <div style={{ padding: '2rem' }}>
-                                <div style={{ color: 'var(--primary)', fontWeight: '600', marginBottom: '0.75rem', fontSize: '0.875rem' }}>
-                                    {item.date || ''}
+                    {posts.length === 0 && fallbackItems.length > 0 && fallbackItems.map((item: any, idx: number) => {
+                        const card = (
+                            <>
+                                <div style={{ position: 'relative', height: '100%', minHeight: '220px' }}>
+                                    <Image src={item.image || '/images/hero.png'} alt={item.title} fill style={{ objectFit: 'cover' }} />
                                 </div>
-                                <h3 style={{ fontSize: '1.5rem', marginBottom: '0.75rem' }}>{item.title}</h3>
-                                <p style={{ color: 'var(--muted-foreground)', marginBottom: '1rem' }}>{item.excerpt}</p>
-                                <span style={{ color: 'var(--primary)', fontWeight: 700 }}>{t('readMore')}</span>
-                            </div>
-                        </a>
-                    ))}
+                                <div style={{ padding: '2rem' }}>
+                                    <div style={{ color: 'var(--primary)', fontWeight: '600', marginBottom: '0.75rem', fontSize: '0.875rem' }}>
+                                        {item.date || ''}
+                                    </div>
+                                    <h3 style={{ fontSize: '1.5rem', marginBottom: '0.75rem' }}>{item.title}</h3>
+                                    <p style={{ color: 'var(--muted-foreground)', marginBottom: '1rem' }}>{item.excerpt}</p>
+                                    <span style={{ color: 'var(--primary)', fontWeight: 700 }}>{t('readMore')}</span>
+                                </div>
+                            </>
+                        );
+                        return (item.link && item.link.startsWith('/')) ? (
+                            <Link key={`fallback-${idx}`} href={item.link as any} className="card" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                {card}
+                            </Link>
+                        ) : (
+                            <a key={`fallback-${idx}`} href={item.link} className="card" style={{ textDecoration: 'none', color: 'inherit' }} target="_blank" rel="noopener noreferrer">
+                                {card}
+                            </a>
+                        );
+                    })}
                 </div>
             </div>
         </div>

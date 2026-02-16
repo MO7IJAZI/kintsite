@@ -198,20 +198,31 @@ export default async function ExpertsForumPage({ params }: { params: Promise<{ l
                                     gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
                                     gap: '1.5rem'
                                 }}>
-                                    {fallbackItems.map((item: any, idx: number) => (
-                                        <a key={`expert-fallback-${idx}`} href={item.link} target="_blank" rel="noopener noreferrer" className="article-card" style={{ textDecoration: 'none', color: 'inherit' }}>
-                                            <div className="article-card-image">
-                                                <Image src={item.image || '/images/hero.png'} alt={item.title} fill style={{ objectFit: 'cover' }} />
-                                            </div>
-                                            <div className="article-card-content">
-                                                <h3 className="article-card-title">{item.title}</h3>
-                                                <p className="article-card-excerpt">{item.excerpt}</p>
-                                                <span className="article-card-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
-                                                    {t('readMore')} {isRtl ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
-                                                </span>
-                                            </div>
-                                        </a>
-                                    ))}
+                                    {fallbackItems.map((item: any, idx: number) => {
+                                        const card = (
+                                            <>
+                                                <div className="article-card-image">
+                                                    <Image src={item.image || '/images/hero.png'} alt={item.title} fill style={{ objectFit: 'cover' }} />
+                                                </div>
+                                                <div className="article-card-content">
+                                                    <h3 className="article-card-title">{item.title}</h3>
+                                                    <p className="article-card-excerpt">{item.excerpt}</p>
+                                                    <span className="article-card-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
+                                                        {t('readMore')} {isRtl ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
+                                                    </span>
+                                                </div>
+                                            </>
+                                        );
+                                        return (item.link && item.link.startsWith('/')) ? (
+                                            <Link key={`expert-fallback-${idx}`} href={item.link as any} className="article-card" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                                {card}
+                                            </Link>
+                                        ) : (
+                                            <a key={`expert-fallback-${idx}`} href={item.link} target="_blank" rel="noopener noreferrer" className="article-card" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                                {card}
+                                            </a>
+                                        );
+                                    })}
                                 </div>
                             </section>
                         )}
