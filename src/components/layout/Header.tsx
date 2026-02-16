@@ -2,26 +2,24 @@
 
 import Image from 'next/image';
 import { Link, usePathname, useRouter } from '@/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
 import { 
     ChevronDown, 
     ChevronRight, 
-    Mail, 
     Menu, 
     X,
-    Sprout,
-    FlaskConical,
-    Microscope,
-    Factory,
-    Truck,
-    Award,
-    FileText,
-    Users,
     Globe,
+    ArrowRight,
+    Leaf,
+    Users,
+    Building2,
+    Phone,
+    Newspaper,
     BookOpen
 } from 'lucide-react';
 
+/* --- TYPES --- */
 interface SubItem {
     name: string;
     href: any;
@@ -35,6 +33,7 @@ interface NavItem {
     name: string;
     href: any;
     subItems?: SubItem[];
+    icon?: React.ReactNode;
 }
 
 type ProductCategoryNavChild = {
@@ -62,20 +61,21 @@ export default function Header({ productCategories }: HeaderProps) {
     const t = useTranslations('Navigation');
     const locale = useLocale();
     const isRtl = locale === 'ar';
-    const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-    const [activeNestedDropdown, setActiveNestedDropdown] = useState<string | null>(null);
-    const [activeMobileSub, setActiveMobileSub] = useState<string | null>(null);
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [isScrolled, setIsScrolled] = useState(false);
-    const [categories, setCategories] = useState<ProductCategoryNav[]>(productCategories ?? []);
     const pathname = usePathname();
     const router = useRouter();
 
+    /* --- STATE --- */
+    const [scrolled, setScrolled] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+    const [categories, setCategories] = useState<ProductCategoryNav[]>(productCategories ?? []);
+    
+    // For mobile accordion logic
+    const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+
+    /* --- EFFECTS --- */
     useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 50);
-        };
-        handleScroll(); // Initial check
+        const handleScroll = () => setScrolled(window.scrollY > 20);
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
@@ -89,1161 +89,772 @@ export default function Header({ productCategories }: HeaderProps) {
                         const data = await res.json();
                         setCategories(data);
                     }
-                } catch (_) {
-                    // ignore
-                }
+                } catch (_) {}
             })();
         }
     }, [productCategories, categories.length]);
 
+    // Close mobile menu on route change
+    useEffect(() => {
+        setMobileMenuOpen(false);
+        setActiveDropdown(null);
+    }, [pathname]);
+
+    /* --- DATA PREP --- */
     const switchLocale = (nextLocale: string) => {
-        router.replace(pathname, {locale: nextLocale});
+        router.replace(pathname, { locale: nextLocale });
     };
 
     const productOfferSubItems: SubItem[] = (categories ?? []).map((category) => {
         const name = locale === 'ar' ? (category.name_ar || category.name) : category.name;
-        const description = locale === 'ar'
-            ? (category.description_ar || category.description)
-            : category.description;
-
+        const description = locale === 'ar' ? (category.description_ar || category.description) : category.description;
         const children = category.children ?? [];
-        const subItems = children.length
-            ? children.map((child) => ({
-                name: locale === 'ar' ? (child.name_ar || child.name) : child.name,
-                href: `/product-category/${child.slug}` as any,
-            }))
-            : undefined;
+        const subItems = children.length ? children.map((child) => ({
+            name: locale === 'ar' ? (child.name_ar || child.name) : child.name,
+            href: `/product-category/${child.slug}` as any,
+        })) : undefined;
 
         return {
             name,
             href: `/product-category/${category.slug}` as any,
             description: description || undefined,
-            icon: <Sprout size={18} />,
             subItems,
         };
     });
-
-    const animalProductsSubItems: SubItem[] = [
-        { name: t('poultry'), href: '/products-for-animals/poultry' as any, icon: <ChevronRight size={14} /> },
-        { name: t('ruminants'), href: '/products-for-animals/ruminants' as any, icon: <ChevronRight size={14} /> },
-        { name: t('swine'), href: '/products-for-animals/swine' as any, icon: <ChevronRight size={14} /> },
-    ];
 
     const navItems: NavItem[] = [
         {
             name: t('agriculturalProducts'),
             href: '/product-category/agricultural' as any,
+            icon: <Leaf size={20} />,
             subItems: [
                 { 
-                    name: t('agriculturalProducts'), 
+                    name: t('productOffer'), 
                     href: '/product-category/agricultural' as any,
                     subItems: productOfferSubItems.length ? productOfferSubItems : undefined,
-                    icon: <Sprout size={18} />
+                    description: t('cropGuidesDesc')
                 },
                 { 
                     name: t('cropGuides'), 
-                    href: '/product-category/crop-guides' as any, 
-                    description: t('cropGuidesDesc'), 
-                    icon: <FileText size={18} /> 
+                    href: '/product-category/crop-guides' as any,
+                    description: t('cropGuidesDesc')
                 },
                 { 
                     name: t('treatmentEfficacy'), 
-                    href: '/treatment-efficacy/optimum-conditions' as any, 
-                    description: t('provenTreatmentResults'), 
-                    icon: <Microscope size={18} />,
+                    href: '/treatment-efficacy/optimum-conditions' as any,
+                    description: t('provenTreatmentResults'),
                     subLink: { name: t('optimumConditions'), href: '/treatment-efficacy/optimum-conditions' as any }
                 },
-                { name: t('mixingTable'), href: '/mixing-table' as any, description: t('mixingTableDesc'), icon: <FlaskConical size={18} /> },
+                { 
+                    name: t('mixingTable'), 
+                    href: '/mixing-table' as any, 
+                    description: t('mixingTableDesc') 
+                },
             ]
         },
         {
             name: t('animalProducts'),
             href: '/product-category/animal' as any,
+            icon: <Users size={20} />, // Placeholder icon
             subItems: [
-                { name: t('veterinaryProducts'), href: '/product-category/veterinary' as any, icon: <Microscope size={18} /> },
+                { name: t('veterinaryProducts'), href: '/product-category/veterinary' as any },
                 { 
                     name: t('byAnimalType'), 
-                    href: '/product-category/by-animal' as any, 
-                    icon: <Users size={18} />,
-                    subItems: animalProductsSubItems
+                    href: '/product-category/by-animal' as any,
+                    subItems: [
+                        { name: t('poultry'), href: '/products-for-animals/poultry' as any },
+                        { name: t('ruminants'), href: '/products-for-animals/ruminants' as any },
+                        { name: t('swine'), href: '/products-for-animals/swine' as any },
+                    ]
                 }
             ]
         },
         {
             name: t('about'),
             href: '/about' as any,
+            icon: <Building2 size={20} />,
             subItems: [
-                { name: t('about'), href: '/about' as any, icon: <Users size={18} /> },
-                { name: t('rdCentre'), href: '/about/rd-centre' as any, icon: <Microscope size={18} /> },
-                { name: t('productionPlants'), href: '/about/production-plants' as any, icon: <Factory size={18} /> },
-                { name: t('logisticsCentre'), href: '/about/logistics-centre' as any, icon: <Truck size={18} /> },
-                { name: t('companyData'), href: '/about/company-data' as any, icon: <FileText size={18} /> },
-                { name: t('career'), href: '/about/career' as any, icon: <Users size={18} /> },
-                { name: t('certificates'), href: '/about/certificates' as any, icon: <Award size={18} /> },
-                { name: t('awards'), href: '/about/awards' as any, icon: <Award size={18} /> },
+                { name: t('about'), href: '/about' as any },
+                { name: t('rdCentre'), href: '/about/rd-centre' as any },
+                { name: t('productionPlants'), href: '/about/production-plants' as any },
+                { name: t('logisticsCentre'), href: '/about/logistics-centre' as any },
+                { name: t('companyData'), href: '/about/company-data' as any },
+                { name: t('career'), href: '/about/career' as any },
+                { name: t('certificates'), href: '/about/certificates' as any },
+                { name: t('awards'), href: '/about/awards' as any },
             ]
         },
-        { name: t('news'), href: '/blog' as any },
-        {
-            name: t('catalogs'),
-            href: '/catalogs' as any,
-        },
+        { name: t('news'), href: '/blog' as any, icon: <Newspaper size={20} /> },
+        { name: t('catalogs'), href: '/catalogs' as any, icon: <BookOpen size={20} /> },
         {
             name: t('contact'),
             href: '/contact' as any,
+            icon: <Phone size={20} />,
             subItems: [
-                { name: t('companyHeadquarter'), href: '/contact/headquarter' as any, icon: <Factory size={18} /> },
-                { name: t('exportDepartment'), href: '/contact/export-department' as any, icon: <Globe size={18} /> },
-                { name: t('localRepresentatives'), href: '/contact/local-representatives' as any, icon: <Users size={18} /> },
-                { name: t('contactForm'), href: '/contact' as any, icon: <Mail size={18} /> },
+                { name: t('companyHeadquarter'), href: '/contact/headquarter' as any },
+                { name: t('exportDepartment'), href: '/contact/export-department' as any },
+                { name: t('localRepresentatives'), href: '/contact/local-representatives' as any },
+                { name: t('contactForm'), href: '/contact' as any },
             ]
         }
     ];
 
     return (
         <>
-            <header className={`main-header ${isScrolled ? 'scrolled' : ''} ${isRtl ? 'rtl' : ''}`} dir={isRtl ? 'rtl' : 'ltr'}>
-                <div className="container header-container">
-                    <Link href="/" className="brand-logo">
-                        <div className="brand-icon">
-                            <Image src="/images/logo.png" alt="" width={72} height={72} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                        </div>
-                    </Link>
-
-                    <nav className="desktop-nav">
-                        <div className="nav-hover-indicator"></div>
-                        {navItems.map((item) => (
-                            <div
-                                key={item.name}
-                                className="nav-item-group"
-                                onMouseEnter={(e) => {
-                                    setActiveDropdown(item.name);
-                                    const rect = e.currentTarget.getBoundingClientRect();
-                                    const parentRect = e.currentTarget.parentElement?.getBoundingClientRect();
-                                    if (parentRect) {
-                                        const indicator = e.currentTarget.parentElement?.querySelector('.nav-hover-indicator') as HTMLElement;
-                                        if (indicator) {
-                                            indicator.style.width = `${rect.width}px`;
-                                            indicator.style.transform = `translateX(${rect.left - parentRect.left}px)`;
-                                            indicator.style.opacity = '1';
-                                        }
-                                    }
-                                }}
-                                onMouseLeave={(e) => {
-                                    setActiveDropdown(null);
-                                    setActiveNestedDropdown(null);
-                                    const indicator = e.currentTarget.parentElement?.querySelector('.nav-hover-indicator') as HTMLElement;
-                                    if (indicator) {
-                                        indicator.style.opacity = '0';
-                                    }
-                                }}
-                            >
-                                <Link
-                                    href={item.href}
-                                    className={`nav-link ${pathname.startsWith(item.href) && item.href !== '/' ? 'active' : ''}`}
-                                >
-                                    <span className="link-text">{item.name}</span>
-                                    {item.subItems && (
-                                        <ChevronDown 
-                                            size={14} 
-                                            className={`chevron ${activeDropdown === item.name ? 'rotated' : ''}`} 
-                                        />
-                                    )}
-                                </Link>
-
-                                {item.subItems && (
-                                    <div className={`dropdown-panel ${activeDropdown === item.name ? 'open' : ''}`}>
-                                        <div className="dropdown-bridge"></div>
-                                        <div className="dropdown-content">
-                                            {item.subItems.map((sub, idx) => (
-                                                <div
-                                                    key={sub.name}
-                                                    className="dropdown-item-wrapper"
-                                                    style={{ animationDelay: `${idx * 0.03}s` }}
-                                                >
-                                                    {sub.subLink ? (
-                                                        <div className="dropdown-item has-sublink">
-                                                            <div className="item-icon">{sub.icon}</div>
-                                                            <div className="item-info">
-                                                                <Link href={sub.href} className="item-name-link">
-                                                                    {sub.name}
-                                                                </Link>
-                                                                {sub.description && <div className="item-desc">{sub.description}</div>}
-                                                                <Link 
-                                                                    href={sub.subLink.href} 
-                                                                    className="item-sublink"
-                                                                >
-                                                                    <ChevronRight size={12} />
-                                                                    {sub.subLink.name}
-                                                                </Link>
-                                                            </div>
-                                                        </div>
-                                                    ) : (
-                                                        <Link href={sub.href} className="dropdown-item">
-                                                            <div className="item-icon">{sub.icon}</div>
-                                                            <div className="item-info">
-                                                                <div className="item-name">{sub.name}</div>
-                                                                {sub.description && <div className="item-desc">{sub.description}</div>}
-                                                            </div>
-                                                        </Link>
-                                                    )}
-                                                    {sub.subItems && (
-                                                        <div className="nested-inline">
-                                                            {sub.subItems.map((nested) => (
-                                                                <Link key={nested.name} href={nested.href} className="nested-inline-link">
-                                                                    {nested.name}
-                                                                </Link>
-                                                            ))}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                )}
+            <header className={`header-wrapper ${scrolled ? 'scrolled' : ''} ${isRtl ? 'rtl' : 'ltr'}`} dir={isRtl ? 'rtl' : 'ltr'}>
+                <div className="header-container">
+                    {/* Logo Section */}
+                    <div className="logo-area">
+                        <Link href="/" className="logo-link">
+                            <Image 
+                                src="/images/logo.png" 
+                                alt="KINT Logo" 
+                                width={60} 
+                                height={60} 
+                                className="logo-img"
+                            />
+                            <div className="logo-text">
+                                <span className="brand-name">KINT</span>
+                                <span className="brand-tagline">INTERNATIONAL</span>
                             </div>
-                        ))}
-                    </nav>
-
-                    <div className="header-actions">
-                        <div className="lang-switcher">
-                            <button 
-                                className={locale === 'en' ? 'active' : ''} 
-                                onClick={() => switchLocale('en')}
-                            >
-                                EN
-                            </button>
-                            <button 
-                                className={locale === 'ar' ? 'active' : ''} 
-                                onClick={() => switchLocale('ar')}
-                            >
-                                AR
-                            </button>
-                        </div>
-                        <Link href="/admin" className="btn-ghost">
-                            <span>Portal</span>
-                        </Link>
-                        <Link href="/contact" className="btn-solid">
-                            <span>{t('contact')}</span>
-                            <div className="btn-glow"></div>
                         </Link>
                     </div>
 
-                    <button className="mobile-burger" onClick={() => setMobileMenuOpen(true)}>
-                        <Menu size={24} />
-                    </button>
+                    {/* Desktop Navigation */}
+                    <nav className="desktop-nav">
+                        <ul className="nav-list">
+                            {navItems.map((item) => (
+                                <li 
+                                    key={item.name} 
+                                    className="nav-item"
+                                    onMouseEnter={() => setActiveDropdown(item.name)}
+                                    onMouseLeave={() => setActiveDropdown(null)}
+                                >
+                                    <Link 
+                                        href={item.href} 
+                                        className={`nav-link ${pathname.startsWith(item.href) && item.href !== '/' ? 'active' : ''}`}
+                                    >
+                                        {item.name}
+                                        {item.subItems && <ChevronDown size={14} className="dropdown-arrow" />}
+                                    </Link>
+
+                                    {/* Mega Dropdown */}
+                                    {item.subItems && (
+                                        <div className={`mega-dropdown ${activeDropdown === item.name ? 'visible' : ''}`}>
+                                            <div className="dropdown-inner">
+                                                {item.subItems.map((sub, idx) => (
+                                                    <div key={idx} className="dropdown-column">
+                                                        <Link href={sub.href} className="column-title">
+                                                            {sub.name}
+                                                            <ArrowRight size={14} className="link-arrow" />
+                                                        </Link>
+                                                        {sub.description && <p className="column-desc">{sub.description}</p>}
+                                                        
+                                                        {sub.subItems && (
+                                                            <ul className="nested-list">
+                                                                {sub.subItems.map((nested, nIdx) => (
+                                                                    <li key={nIdx}>
+                                                                        <Link href={nested.href} className="nested-link">
+                                                                            {nested.name}
+                                                                        </Link>
+                                                                    </li>
+                                                                ))}
+                                                            </ul>
+                                                        )}
+
+                                                        {sub.subLink && (
+                                                            <Link href={sub.subLink.href} className="special-sublink">
+                                                                {sub.subLink.name}
+                                                            </Link>
+                                                        )}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
+
+                    {/* Actions Area */}
+                    <div className="actions-area">
+                        <div className="lang-toggle">
+                            <button 
+                                className={locale === 'en' ? 'active' : ''} 
+                                onClick={() => switchLocale('en')}
+                            >EN</button>
+                            <span className="divider">/</span>
+                            <button 
+                                className={locale === 'ar' ? 'active' : ''} 
+                                onClick={() => switchLocale('ar')}
+                            >AR</button>
+                        </div>
+                        
+                        <Link href="/admin" className="portal-btn">
+                            <Users size={18} />
+                            <span className="btn-text">Portal</span>
+                        </Link>
+
+                        <button className="mobile-toggle" onClick={() => setMobileMenuOpen(true)}>
+                            <Menu size={24} />
+                        </button>
+                    </div>
                 </div>
             </header>
 
-            {/* Mobile Menu */}
-            <div className={`mobile-overlay ${mobileMenuOpen ? 'active' : ''}`} onClick={(e) => {
-                if (e.target === e.currentTarget) setMobileMenuOpen(false);
-            }}>
-                <div className="mobile-drawer">
-                    <div className="drawer-header">
-                        <div className="brand-logo mobile">
-                            <div className="brand-icon">
-                                <Image src="/images/logo.png" alt="" width={56} height={56} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                            </div>
-                        </div>
+            {/* Mobile Sidebar */}
+            <div className={`mobile-sidebar-overlay ${mobileMenuOpen ? 'open' : ''}`} onClick={() => setMobileMenuOpen(false)}>
+                <div className="mobile-sidebar" onClick={e => e.stopPropagation()} dir={isRtl ? 'rtl' : 'ltr'}>
+                    <div className="sidebar-header">
+                        <span className="sidebar-title">{t('home')}</span>
                         <button className="close-btn" onClick={() => setMobileMenuOpen(false)}>
                             <X size={24} />
                         </button>
                     </div>
 
-                    <div className="drawer-content">
+                    <div className="sidebar-content">
                         {navItems.map((item) => (
-                            <div key={item.name} className="drawer-item">
-                                {item.subItems ? (
-                                    <>
-                                        <div 
-                                            className="drawer-link has-sub" 
-                                            onClick={() => setActiveDropdown(activeDropdown === item.name ? null : item.name)}
-                                        >
-                                            {item.name}
-                                            <ChevronDown 
-                                                size={16} 
-                                                className={`drawer-chevron ${activeDropdown === item.name ? 'rotated' : ''}`}
-                                            />
-                                        </div>
-                                        <div className={`drawer-sub ${activeDropdown === item.name ? 'expanded' : ''}`}>
-                                            {item.subItems.map((sub) => (
-                                                <div key={sub.name} className="drawer-sub-item">
-                                                    {sub.subItems ? (
-                                                        <>
-                                                            <div 
-                                                                className="drawer-sub-link has-nested"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    setActiveMobileSub(activeMobileSub === sub.name ? null : sub.name);
-                                                                }}
-                                                            >
-                                                                {sub.name}
-                                                                <ChevronDown 
-                                                                    size={14} 
-                                                                    className={`drawer-chevron small ${activeMobileSub === sub.name ? 'rotated' : ''}`}
-                                                                />
-                                                            </div>
-                                                            <div className={`drawer-nested ${activeMobileSub === sub.name ? 'expanded' : ''}`}>
-                                                                {sub.subItems.map((nested) => (
-                                                                    <Link 
-                                                                        key={nested.name} 
-                                                                        href={nested.href} 
-                                                                        className="drawer-nested-link"
-                                                                        onClick={() => setMobileMenuOpen(false)}
-                                                                    >
-                                                                        {nested.name}
-                                                                    </Link>
-                                                                ))}
-                                                            </div>
-                                                        </>
-                                                    ) : sub.subLink ? (
-                                                        <>
-                                                            <Link 
-                                                                href={sub.href} 
-                                                                className="drawer-sub-link"
-                                                                onClick={() => setMobileMenuOpen(false)}
-                                                            >
-                                                                {sub.name}
-                                                            </Link>
-                                                            <Link 
-                                                                href={sub.subLink.href} 
-                                                                className="drawer-nested-link sublink-mobile"
-                                                                onClick={() => setMobileMenuOpen(false)}
-                                                            >
-                                                                <ChevronRight size={12} />
-                                                                {sub.subLink.name}
-                                                            </Link>
-                                                        </>
-                                                    ) : (
-                                                        <Link 
-                                                            href={sub.href} 
-                                                            className="drawer-sub-link"
-                                                            onClick={() => setMobileMenuOpen(false)}
-                                                        >
-                                                            {sub.name}
-                                                        </Link>
-                                                    )}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </>
-                                ) : (
+                            <div key={item.name} className="mobile-group">
+                                <div className="mobile-item-head">
                                     <Link 
                                         href={item.href} 
-                                        className="drawer-link"
-                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="mobile-main-link"
+                                        onClick={() => !item.subItems && setMobileMenuOpen(false)}
                                     >
+                                        {item.icon && <span className="mobile-icon">{item.icon}</span>}
                                         {item.name}
                                     </Link>
+                                    {item.subItems && (
+                                        <button 
+                                            className={`expand-btn ${mobileExpanded === item.name ? 'expanded' : ''}`}
+                                            onClick={() => setMobileExpanded(mobileExpanded === item.name ? null : item.name)}
+                                        >
+                                            <ChevronDown size={18} />
+                                        </button>
+                                    )}
+                                </div>
+
+                                {item.subItems && (
+                                    <div className={`mobile-submenu ${mobileExpanded === item.name ? 'open' : ''}`}>
+                                        {item.subItems.map((sub, sIdx) => (
+                                            <div key={sIdx} className="mobile-sub-group">
+                                                <Link 
+                                                    href={sub.href} 
+                                                    className="mobile-sub-link"
+                                                    onClick={() => setMobileMenuOpen(false)}
+                                                >
+                                                    {sub.name}
+                                                </Link>
+                                                {sub.subItems && (
+                                                    <div className="mobile-nested-links">
+                                                        {sub.subItems.map((nested, nIdx) => (
+                                                            <Link 
+                                                                key={nIdx} 
+                                                                href={nested.href} 
+                                                                className="mobile-nested-link"
+                                                                onClick={() => setMobileMenuOpen(false)}
+                                                            >
+                                                                — {nested.name}
+                                                            </Link>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
                                 )}
                             </div>
                         ))}
                     </div>
-                    
-                    <div className="drawer-footer">
 
-                        <Link href="/admin" className="btn-ghost full">Customer Portal</Link>
+                    <div className="sidebar-footer">
+                        <div className="mobile-lang">
+                            <button onClick={() => switchLocale('en')} className={locale === 'en' ? 'active' : ''}>English</button>
+                            <button onClick={() => switchLocale('ar')} className={locale === 'ar' ? 'active' : ''}>العربية</button>
+                        </div>
+                        <Link href="/admin" className="mobile-portal-btn">
+                            Customer Portal
+                        </Link>
                     </div>
                 </div>
             </div>
 
             <style jsx>{`
-                /* --- VARIABLES --- */
-                :global(:root) {
-                    --c-primary: #e9496c;
-                    --c-primary-dark: #d63d5c;
-                    --c-primary-light: #fce4e9;
-                    --c-text-main: #0f172a;
-                    --c-text-muted: #64748b;
-                    --c-bg-glass: rgba(255, 255, 255, 0.75);
-                    --c-border: rgba(255, 255, 255, 0.5);
-                    --shadow-sm: 0 4px 6px -1px rgba(0,0,0,0.02);
-                    --shadow-lg: 0 25px 50px -12px rgba(0,0,0,0.15);
-                    --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
-                    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-                }
-
-                /* --- ANIMATIONS --- */
-                @keyframes slideDown {
-                    from { opacity: 0; transform: translateY(-8px) scale(0.98); }
-                    to { opacity: 1; transform: translateY(0) scale(1); }
-                }
-                @keyframes float {
-                    0%, 100% { transform: translateY(0); }
-                    50% { transform: translateY(-4px); }
-                }
-                @keyframes shimmer {
-                    0% { transform: translateX(-100%) skewX(-15deg); }
-                    100% { transform: translateX(200%) skewX(-15deg); }
-                }
-                
-                /* --- ACTIONS --- */
-                .header-actions {
-                    display: flex;
-                    align-items: center;
-                    gap: 1.25rem;
-                }
-                .lang-switcher {
-                    display: flex;
-                    gap: 0.25rem;
-                    background: rgba(0,0,0,0.03);
-                    padding: 0.25rem;
-                    border-radius: 10px;
-                }
-                .lang-switcher button {
-                    background: none;
-                    border: none;
-                    padding: 0.35rem 0.6rem;
-                    font-size: 0.75rem;
-                    font-weight: 700;
-                    color: var(--c-text-muted);
-                    cursor: pointer;
-                    border-radius: 7px;
-                    transition: all 0.2s;
-                }
-                .lang-switcher button.active {
-                    background: white;
-                    color: var(--c-primary);
-                    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-                }
-                .search-trigger {
-                    color: var(--c-text-muted);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 10px;
-                    transition: all 0.2s;
-                }
-                .search-trigger:hover {
-                    background: var(--c-primary-light);
-                    color: var(--c-primary);
-                }
-                .btn-ghost {
-                    padding: 0.6rem 1.25rem;
-                    color: var(--c-text-main);
-                    font-weight: 600;
-                    font-size: 0.9rem;
-                    text-decoration: none;
-                    border-radius: 12px;
-                    transition: all 0.2s;
-                }
-                .btn-ghost:hover {
-                    background: rgba(0,0,0,0.03);
-                }
-                .btn-solid {
-                    background: linear-gradient(135deg, var(--c-primary), var(--c-primary-dark));
-                    color: white;
-                    padding: 0.7rem 1.5rem;
-                    border-radius: 14px;
-                    font-weight: 700;
-                    font-size: 0.9rem;
-                    text-decoration: none;
-                    position: relative;
-                    overflow: hidden;
-                    box-shadow: 0 8px 20px -6px rgba(233, 73, 108, 0.4);
-                    transition: all 0.3s var(--ease-out);
-                }
-                .btn-solid:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 12px 24px -8px rgba(233, 73, 108, 0.5);
-                }
-                .btn-glow {
-                    position: absolute;
-                    inset: 0;
-                    background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.2) 0%, transparent 100%);
-                    opacity: 0;
-                    transition: opacity 0.3s;
-                }
-                .btn-solid:hover .btn-glow {
-                    opacity: 1;
-                }
-
-                /* --- MAIN HEADER --- */
-                .main-header {
+                /* --- VARIABLES & BASE --- */
+                .header-wrapper {
                     position: fixed;
                     top: 0;
                     left: 0;
                     right: 0;
+                    height: 90px;
                     z-index: 1000;
-                    height: 80px;
-                    background: rgba(255,255,255,0.9);
-                    -webkit-backdrop-filter: saturate(180%) blur(10px);
-                    backdrop-filter: saturate(180%) blur(10px);
-                    border-bottom: 1px solid rgba(226,232,240,0.8);
-                    transition: all 0.3s ease;
+                    background: transparent;
+                    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                    border-bottom: 1px solid transparent;
                 }
-                .main-header.scrolled {
-                    height: 64px;
-                    background: rgba(255,255,255,0.96);
-                    box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+                .header-wrapper.scrolled {
+                    height: 70px;
+                    background: rgba(255, 255, 255, 0.95);
+                    backdrop-filter: blur(12px);
+                    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+                    border-bottom-color: rgba(0, 0, 0, 0.05);
                 }
+
                 .header-container {
+                    max-width: 1400px;
+                    margin: 0 auto;
+                    height: 100%;
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    height: 100%;
-                    max-width: 1280px;
-                    margin: 0 auto;
-                    padding: 0 1.5rem;
+                    padding: 0 2rem;
                 }
 
-                /* --- BRAND --- */
-                .brand-logo {
+                /* --- LOGO --- */
+                .logo-link {
                     display: flex;
                     align-items: center;
-                    gap: 0.75rem;
+                    gap: 0.8rem;
                     text-decoration: none;
-                    color: var(--c-text-main);
+                    color: inherit;
                 }
-                .brand-icon {
-                    width: 72px;
-                    height: 72px;
-                    border-radius: 10px;
+                .logo-img {
+                    width: 48px;
+                    height: 48px;
+                    object-fit: contain;
+                    transition: transform 0.3s ease;
+                }
+                .header-wrapper.scrolled .logo-img {
+                    width: 40px;
+                    height: 40px;
+                }
+                .logo-text {
                     display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    background: transparent;
-                    position: relative;
-                    overflow: hidden;
-                    box-shadow: none;
-                    transition: transform 0.3s var(--ease-elastic);
-                }
-                .main-header.scrolled .brand-icon {
-                    width: 56px;
-                    height: 56px;
-                }
-                .brand-logo.mobile {
-                    gap: 0;
-                }
-                .brand-logo:hover .brand-icon {
-                    transform: rotate(-5deg) scale(1.05);
-                }
-                .shine-effect {
-                    position: absolute;
-                    inset: 0;
-                    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.6), transparent);
-                    transform: translateX(-100%);
-                    transition: transform 0.5s;
-                }
-                .brand-logo:hover .shine-effect {
-                    transform: translateX(100%);
+                    flex-direction: column;
+                    line-height: 1;
                 }
                 .brand-name {
-                    font-size: 1.5rem;
+                    font-size: 1.4rem;
                     font-weight: 800;
-                    letter-spacing: -0.02em;
+                    color: #0f172a;
+                    letter-spacing: -0.03em;
+                }
+                .brand-tagline {
+                    font-size: 0.65rem;
+                    font-weight: 600;
+                    color: #64748b;
+                    letter-spacing: 0.15em;
                 }
 
-                /* --- NAVIGATION --- */
+                /* --- DESKTOP NAV --- */
                 .desktop-nav {
-                    display: flex;
-                    align-items: center;
-                    gap: 1.25rem;
                     height: 100%;
-                    position: relative;
+                    display: none;
                 }
-                .nav-hover-indicator {
-                    position: absolute;
-                    bottom: 15px;
-                    left: 0;
-                    height: 36px;
-                    background: rgba(233, 73, 108, 0.08);
-                    border: 1px solid rgba(233,73,108,0.12);
-                    border-radius: 12px;
-                    pointer-events: none;
-                    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-                    opacity: 0;
-                    z-index: 0;
+                @media (min-width: 1024px) {
+                    .desktop-nav { display: block; }
                 }
-                .main-header.rtl .nav-hover-indicator {
-                    right: 0;
-                    left: auto;
+
+                .nav-list {
+                    display: flex;
+                    height: 100%;
+                    gap: 2rem;
+                    list-style: none;
+                    margin: 0;
+                    padding: 0;
                 }
-                .nav-item-group {
+
+                .nav-item {
                     height: 100%;
                     display: flex;
                     align-items: center;
                     position: relative;
                 }
+
                 .nav-link {
                     display: flex;
                     align-items: center;
-                    gap: 0.5rem;
+                    gap: 0.4rem;
                     text-decoration: none;
-                    color: var(--c-text-main);
-                    font-weight: 700;
-                    font-size: 0.96rem;
-                    transition: all 0.3s;
-                    padding: 0.55rem 0.8rem;
-                    border-radius: 10px;
+                    font-size: 0.95rem;
+                    font-weight: 600;
+                    color: #334155;
+                    padding: 0.5rem 0.8rem;
+                    border-radius: 8px;
+                    transition: all 0.2s;
                     position: relative;
-                    z-index: 1;
                 }
-                .nav-link:hover {
-                    color: var(--c-primary-dark);
+                .nav-link:hover, .nav-link.active {
+                    color: #e9496c;
+                    background: rgba(233, 73, 108, 0.05);
                 }
-                .nav-link.active {
-                    color: var(--c-primary);
-                }
-                .nav-link.active::after {
+                .nav-link::after {
                     content: '';
                     position: absolute;
-                    bottom: -2px;
+                    bottom: 0;
                     left: 50%;
+                    width: 0;
+                    height: 2px;
+                    background: #e9496c;
+                    transition: all 0.3s;
                     transform: translateX(-50%);
-                    width: 6px;
-                    height: 4px;
-                    background: var(--c-primary);
-                    border-radius: 50%;
                 }
-                .nav-link:focus-visible {
-                    outline: 2px solid rgba(233,73,108,0.4);
-                    outline-offset: 2px;
+                .nav-link.active::after {
+                    width: 60%;
                 }
-                .chevron {
-                    transition: transform 0.3s var(--ease-elastic);
+
+                .dropdown-arrow {
+                    transition: transform 0.2s;
                     opacity: 0.5;
                 }
-                .chevron.rotated {
+                .nav-item:hover .dropdown-arrow {
                     transform: rotate(180deg);
                     opacity: 1;
-                    color: var(--c-primary);
-                }
-                .main-header.rtl .chevron.rotated {
-                    transform: rotate(-180deg);
                 }
 
-                /* --- DROPDOWNS --- */
-                .dropdown-panel {
+                /* --- MEGA DROPDOWN --- */
+                .mega-dropdown {
                     position: absolute;
-                    top: calc(100% - 10px);
+                    top: 100%;
                     left: 50%;
-                    transform: translateX(-50%) translateY(15px);
-                    background: rgba(255, 255, 255, 0.96);
-                    backdrop-filter: blur(18px) saturate(180%);
-                    -webkit-backdrop-filter: blur(18px) saturate(180%);
-                    border-radius: 20px;
-                    box-shadow: 
-                        0 0 0 1px rgba(0,0,0,0.04),
-                        0 24px 48px -12px rgba(0,0,0,0.14),
-                        0 10px 20px -6px rgba(0,0,0,0.06);
-                    padding: 0.75rem;
+                    transform: translateX(-50%) translateY(20px);
+                    background: white;
+                    border-radius: 16px;
+                    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+                    padding: 1.5rem;
+                    min-width: 600px;
                     opacity: 0;
                     visibility: hidden;
-                    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-                    z-index: 100;
-                    min-width: 280px;
-                    pointer-events: none;
+                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                    border: 1px solid rgba(0,0,0,0.05);
                 }
-                .main-header.rtl .dropdown-panel {
-                    right: 50%;
-                    left: auto;
-                    transform: translateX(50%) translateY(15px);
-                }
-                /* Smart alignment for items near screen edges */
-                .nav-item-group:nth-last-child(-n+2) .dropdown-panel {
-                    left: auto;
-                    right: -20px;
-                    transform: translateX(0) translateY(15px);
-                }
-                .nav-item-group:nth-last-child(-n+2) .dropdown-panel.open {
-                    transform: translateX(0) translateY(0);
-                }
-
-                .dropdown-panel.open {
+                .mega-dropdown.visible {
                     opacity: 1;
                     visibility: visible;
                     transform: translateX(-50%) translateY(0);
-                    pointer-events: all;
                 }
-                .main-header.rtl .dropdown-panel.open {
-                    transform: translateX(50%) translateY(0);
-                }
-
-                /* Ensure the first and last panels don't use the -50% translateX */
-                .nav-item-group:nth-last-child(-n+2) .dropdown-panel.open {
-                    transform: translateX(0) translateY(0);
-                }
-                .dropdown-bridge {
-                    position: absolute;
-                    top: -20px;
+                /* Adjust positioning for items near edges */
+                .nav-item:first-child .mega-dropdown {
                     left: 0;
-                    right: 0;
-                    height: 20px;
+                    transform: translateY(20px);
                 }
-                .dropdown-content {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-                    gap: 0.75rem;
-                    max-height: calc(100vh - 140px);
-                    overflow-y: auto;
-                    padding: 0.75rem;
-                    scrollbar-width: thin;
-                    scrollbar-color: var(--c-primary) transparent;
-                }
-                .dropdown-content::-webkit-scrollbar {
-                    width: 4px;
-                }
-                .dropdown-content::-webkit-scrollbar-thumb {
-                    background: var(--c-primary);
-                    border-radius: 10px;
-                }
-                /* Two columns for larger menus */
-                .nav-item-group:first-child .dropdown-content,
-                .nav-item-group:nth-child(2) .dropdown-content,
-                .nav-item-group:nth-child(3) .dropdown-content {
-                    min-width: 520px;
-                    grid-template-columns: repeat(2, 1fr);
-                }
-                
-                /* Ensure dropdown doesn't overflow viewport */
-                .nav-item-group:first-child .dropdown-panel {
-                    left: 0;
-                    transform: translateX(0) translateY(15px);
-                    max-width: calc(100vw - 2rem);
-                }
-                .nav-item-group:first-child .dropdown-panel.open {
-                    transform: translateX(0) translateY(0);
-                }
-                
-                .dropdown-item-wrapper {
-                    position: relative;
-                    opacity: 0;
-                    transform: translateY(10px);
-                    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-                }
-                .dropdown-panel.open .dropdown-item-wrapper {
-                    opacity: 1;
+                .nav-item:first-child .mega-dropdown.visible {
                     transform: translateY(0);
                 }
-                
-                .dropdown-item {
-                    display: flex;
-                    align-items: center;
-                    gap: 1rem;
-                    padding: 0.9rem 1rem;
-                    text-decoration: none;
-                    border-radius: 14px;
-                    transition: all 0.25s var(--ease-out);
-                    border: 1px solid transparent;
+                .nav-item:last-child .mega-dropdown {
+                    left: auto;
+                    right: 0;
+                    transform: translateY(20px);
                 }
-                .dropdown-item:hover {
-                    background: #ffffff;
-                    border-color: rgba(233, 73, 108, 0.1);
-                    box-shadow: 0 4px 12px -2px rgba(0,0,0,0.04);
-                    transform: scale(1.02);
-                }
-                .dropdown-item:focus-visible {
-                    outline: 2px solid rgba(233,73,108,0.35);
-                    outline-offset: 2px;
-                }
-                .item-icon {
-                    width: 40px;
-                    height: 40px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    background: var(--c-primary-light);
-                    color: var(--c-primary);
-                    border-radius: 12px;
-                    transition: all 0.3s;
-                    flex-shrink: 0;
-                }
-                .dropdown-item:hover .item-icon {
-                    background: var(--c-primary);
-                    color: white;
-                    transform: rotate(-8deg) scale(1.1);
-                }
-                .item-info {
-                    flex: 1;
-                    min-width: 0;
-                }
-                .item-name {
-                    display: block;
-                    font-weight: 700;
-                    color: var(--c-text-main);
-                    font-size: 0.95rem;
-                    margin-bottom: 0.15rem;
-                    transition: color 0.2s ease;
-                }
-                .dropdown-item:hover .item-name {
-                    color: var(--c-primary);
-                }
-                .item-desc {
-                    display: block;
-                    font-size: 0.8rem;
-                    color: var(--c-text-muted);
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    max-width: 180px;
-                    transition: color 0.2s ease;
-                }
-                .dropdown-item:hover .item-desc {
-                    color: var(--c-text-main);
-                }
-                .item-sublink {
-                    display: inline-flex;
-                    align-items: center;
-                    gap: 0.25rem;
-                    margin-top: 0.5rem;
-                    padding: 0.35rem 0.6rem;
-                    background: linear-gradient(135deg, var(--c-primary-light), rgba(233, 73, 108, 0.08));
-                    color: var(--c-primary-dark);
-                    font-size: 0.75rem;
-                    font-weight: 600;
-                    border-radius: 6px;
-                    text-decoration: none;
-                    transition: all 0.2s ease;
-                    border: 1px solid rgba(233, 73, 108, 0.15);
-                }
-                .item-sublink:hover {
-                    background: var(--c-primary);
-                    color: white;
-                    transform: translateX(2px);
-                    border-color: var(--c-primary);
-                }
-                .item-name-link {
-                    display: block;
-                    font-weight: 700;
-                    color: var(--c-text-main);
-                    font-size: 0.95rem;
-                    margin-bottom: 0.15rem;
-                    text-decoration: none;
-                    transition: color 0.2s ease;
-                }
-                .item-name-link:hover {
-                    color: var(--c-primary);
-                }
-                .dropdown-item.has-sublink {
-                    cursor: default;
-                }
-                .dropdown-item.has-sublink:hover {
-                    background: #ffffff;
-                    border-color: rgba(233, 73, 108, 0.1);
-                    box-shadow: 0 4px 12px -2px rgba(0,0,0,0.04);
-                    transform: scale(1.02);
-                }
-                .dropdown-item.has-sublink:hover .item-icon {
-                    background: var(--c-primary);
-                    color: white;
-                    transform: rotate(-8deg) scale(1.1);
-                }
-                .item-chevron {
-                    color: var(--c-text-muted);
-                    opacity: 0.3;
-                    transition: all 0.3s;
-                }
-                .dropdown-item:hover .item-chevron {
-                    opacity: 1;
-                    transform: translateX(3px);
-                    color: var(--c-primary);
+                .nav-item:last-child .mega-dropdown.visible {
+                    transform: translateY(0);
                 }
 
-                .nested-inline {
+                .dropdown-inner {
                     display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-                    gap: 0.4rem;
-                    padding: 0.5rem 0.5rem 0 3.5rem;
-                }
-                .nested-inline-link {
-                    display: block;
-                    padding: 0.4rem 0.6rem;
-                    text-decoration: none;
-                    color: var(--c-text-muted);
-                    font-size: 0.85rem;
-                    font-weight: 600;
-                    border-radius: 8px;
-                    transition: all 0.2s var(--ease-out);
-                    border: 1px solid transparent;
-                    background: #fff;
-                }
-                .nested-inline-link:hover {
-                    background: var(--c-primary-light);
-                    color: var(--c-primary-dark);
-                    border-color: rgba(233,73,108,0.18);
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 2rem;
                 }
 
-                /* --- BUTTONS --- */
-                .btn-solid {
-                    background: var(--c-primary);
-                    color: white;
-                    padding: 0.65rem 1.25rem;
-                    border-radius: 12px;
+                .column-title {
+                    font-size: 1rem;
                     font-weight: 700;
-                    font-size: 0.9rem;
-                    text-decoration: none;
+                    color: #0f172a;
+                    margin-bottom: 0.5rem;
                     display: flex;
                     align-items: center;
                     gap: 0.5rem;
-                    transition: all 0.3s var(--ease-out);
-                    box-shadow: 0 4px 15px rgba(233, 73, 108, 0.2);
-                    position: relative;
-                    overflow: hidden;
-                }
-                .btn-solid:hover {
-                    background: var(--c-primary-dark);
-                    transform: translateY(-2px);
-                    box-shadow: 0 8px 25px rgba(233, 73, 108, 0.3);
-                }
-                .btn-ghost {
-                    color: var(--c-text-main);
-                    padding: 0.65rem 1.1rem;
-                    border-radius: 12px;
-                    font-weight: 600;
-                    font-size: 0.9rem;
                     text-decoration: none;
-                    transition: all 0.3s;
-                    border: 1px solid transparent;
                 }
-                .btn-ghost:hover {
-                    background: rgba(0,0,0,0.04);
-                    color: var(--c-primary);
+                .column-title:hover {
+                    color: #e9496c;
                 }
-
-                .header-actions {
-                    display: flex;
-                    align-items: center;
-                    gap: 0.75rem;
-                }
-
-                .lang-switcher {
-                    background: #f1f5f9;
-                    padding: 0.25rem;
-                    border-radius: 10px;
-                    display: flex;
-                    gap: 0.1rem;
-                }
-                .lang-switcher button {
-                    background: transparent;
-                    border: none;
-                    color: var(--c-text-muted);
-                    font-size: 0.7rem;
-                    font-weight: 700;
-                    cursor: pointer;
-                    padding: 0.35rem 0.6rem;
-                    border-radius: 8px;
+                .link-arrow {
+                    opacity: 0;
+                    transform: translateX(-5px);
                     transition: all 0.2s;
                 }
-                .lang-switcher button.active {
-                    background: white;
-                    color: var(--c-primary);
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-                }
-                .lang-switcher button:hover:not(.active) {
-                    color: var(--c-text-main);
+                .column-title:hover .link-arrow {
+                    opacity: 1;
+                    transform: translateX(0);
                 }
 
-                .btn-solid:hover .btn-glow {
-                    animation: shimmer 1.5s infinite;
-                }
-                .btn-glow {
-                    position: absolute;
-                    inset: 0;
-                    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-                    transform: translateX(-100%) skewX(-15deg);
+                .column-desc {
+                    font-size: 0.85rem;
+                    color: #64748b;
+                    margin-bottom: 1rem;
+                    line-height: 1.5;
                 }
 
-                /* --- MOBILE MENU --- */
-                .mobile-overlay {
+                .nested-list {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+                }
+                .nested-link {
+                    font-size: 0.9rem;
+                    color: #475569;
+                    text-decoration: none;
+                    transition: color 0.2s;
+                    display: block;
+                    padding: 0.25rem 0;
+                }
+                .nested-link:hover {
+                    color: #e9496c;
+                    padding-left: 5px;
+                }
+                .rtl .nested-link:hover {
+                    padding-left: 0;
+                    padding-right: 5px;
+                }
+
+                .special-sublink {
+                    display: inline-block;
+                    margin-top: 0.5rem;
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                    color: #e9496c;
+                    text-decoration: none;
+                    border-bottom: 1px dashed #e9496c;
+                }
+
+                /* --- ACTIONS AREA --- */
+                .actions-area {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                }
+
+                .lang-toggle {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.3rem;
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                    color: #64748b;
+                }
+                .lang-toggle button {
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    color: inherit;
+                    padding: 0.2rem;
+                    transition: color 0.2s;
+                }
+                .lang-toggle button.active {
+                    color: #e9496c;
+                }
+                .divider {
+                    opacity: 0.3;
+                }
+
+                .portal-btn {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    background: #0f172a;
+                    color: white;
+                    padding: 0.6rem 1.2rem;
+                    border-radius: 50px;
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    text-decoration: none;
+                    transition: all 0.3s;
+                }
+                .portal-btn:hover {
+                    background: #e9496c;
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(233, 73, 108, 0.3);
+                }
+                .btn-text {
+                    display: none;
+                }
+                @media (min-width: 640px) {
+                    .btn-text { display: inline; }
+                }
+
+                .mobile-toggle {
+                    display: none;
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    color: #0f172a;
+                }
+                @media (max-width: 1023px) {
+                    .mobile-toggle { display: block; }
+                }
+
+                /* --- MOBILE SIDEBAR --- */
+                .mobile-sidebar-overlay {
                     position: fixed;
                     inset: 0;
-                    background: rgba(15, 23, 42, 0.4);
-                    backdrop-filter: blur(8px);
+                    background: rgba(0,0,0,0.3);
+                    backdrop-filter: blur(4px);
                     z-index: 2000;
                     opacity: 0;
                     visibility: hidden;
-                    transition: all 0.4s;
+                    transition: all 0.3s;
                 }
-                .mobile-overlay.active {
+                .mobile-sidebar-overlay.open {
                     opacity: 1;
                     visibility: visible;
                 }
-                .mobile-drawer {
+
+                .mobile-sidebar {
                     position: absolute;
-                    right: 0;
                     top: 0;
                     bottom: 0;
-                    width: 100%;
-                    max-width: 360px;
+                    width: 300px;
                     background: white;
-                    transform: translateX(100%);
-                    transition: transform 0.4s var(--ease-out);
+                    box-shadow: 0 0 40px rgba(0,0,0,0.1);
                     display: flex;
                     flex-direction: column;
-                    box-shadow: -10px 0 40px rgba(0,0,0,0.1);
-                    padding-top: env(safe-area-inset-top);
-                    padding-bottom: env(safe-area-inset-bottom);
+                    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
                 }
-                .mobile-overlay.active .mobile-drawer {
-                    transform: translateX(0);
-                }
-                .drawer-header {
+                .ltr .mobile-sidebar { right: 0; transform: translateX(100%); }
+                .ltr .mobile-sidebar-overlay.open .mobile-sidebar { transform: translateX(0); }
+                .rtl .mobile-sidebar { left: 0; transform: translateX(-100%); }
+                .rtl .mobile-sidebar-overlay.open .mobile-sidebar { transform: translateX(0); }
+
+                .sidebar-header {
                     padding: 1.5rem;
                     display: flex;
-                    align-items: center;
                     justify-content: space-between;
+                    align-items: center;
                     border-bottom: 1px solid #f1f5f9;
                 }
-                .drawer-content {
+                .sidebar-title {
+                    font-weight: 800;
+                    font-size: 1.2rem;
+                    color: #0f172a;
+                }
+                .close-btn {
+                    background: #f8fafc;
+                    border: none;
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    color: #64748b;
+                }
+
+                .sidebar-content {
                     flex: 1;
                     overflow-y: auto;
                     padding: 1rem;
                 }
-                .drawer-item {
-                    margin-bottom: 0.5rem;
+
+                .mobile-group {
+                    border-bottom: 1px solid #f8fafc;
                 }
-                .drawer-link {
+                .mobile-item-head {
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
-                    padding: 1rem;
-                    color: var(--c-text-main);
+                }
+                .mobile-main-link {
+                    flex: 1;
+                    padding: 1rem 0;
+                    text-decoration: none;
+                    color: #334155;
                     font-weight: 700;
-                    font-size: 1.1rem;
-                    text-decoration: none;
-                    border-radius: 12px;
-                    transition: all 0.2s;
-                }
-                .drawer-link:hover {
-                    background: #f8fafc;
-                    color: var(--c-primary);
-                }
-                .drawer-sub {
-                    max-height: 0;
-                    overflow: hidden;
-                    transition: all 0.3s var(--ease-out);
-                    padding-left: 1rem;
-                }
-                .drawer-sub.expanded {
-                    max-height: 500px;
-                    margin-top: 0.5rem;
-                    margin-bottom: 1rem;
-                }
-                .drawer-sub-link {
                     display: flex;
                     align-items: center;
-                    justify-content: space-between;
-                    padding: 0.75rem 1rem;
-                    color: var(--c-text-muted);
-                    font-weight: 600;
-                    text-decoration: none;
-                    border-radius: 8px;
-                    font-size: 0.95rem;
-                    cursor: pointer;
-                }
-                .drawer-sub-link:hover {
-                    color: var(--c-primary);
-                    background: var(--c-primary-light);
-                }
-                .drawer-nested {
-                    max-height: 0;
-                    overflow: hidden;
-                    transition: all 0.3s var(--ease-out);
-                    padding-left: 1.5rem;
-                }
-                .drawer-nested.expanded {
-                    max-height: 300px;
-                    margin-bottom: 0.5rem;
-                }
-                .drawer-nested-link {
-                    display: block;
-                    padding: 0.5rem 1rem;
-                    color: var(--c-text-muted);
-                    font-weight: 500;
-                    text-decoration: none;
-                    font-size: 0.9rem;
-                    border-radius: 6px;
-                }
-                .drawer-nested-link:hover {
-                    color: var(--c-primary);
-                    background: var(--c-primary-light);
-                }
-                .drawer-nested-link.sublink-mobile {
-                    display: flex;
-                    align-items: center;
-                    gap: 0.35rem;
-                    margin-left: 1rem;
-                    margin-top: 0.25rem;
-                    padding: 0.5rem 0.75rem;
-                    background: linear-gradient(135deg, var(--c-primary-light), rgba(233, 73, 108, 0.08));
-                    color: var(--c-primary-dark);
-                    font-size: 0.8rem;
-                    font-weight: 600;
-                    border-radius: 8px;
-                    border: 1px solid rgba(233, 73, 108, 0.15);
-                }
-                .drawer-nested-link.sublink-mobile:hover {
-                    background: var(--c-primary);
-                    color: white;
-                    border-color: var(--c-primary);
-                }
-                .drawer-chevron.small {
-                    opacity: 0.5;
-                }
-                .drawer-footer {
-                    padding: 1.5rem;
-                    border-top: 1px solid #f1f5f9;
-                    display: grid;
                     gap: 0.75rem;
                 }
-                .btn-solid.full, .btn-ghost.full {
-                    justify-content: center;
-                    width: 100%;
+                .mobile-icon {
+                    color: #e9496c;
                 }
-                .mobile-burger {
-                    display: none;
-                    background: #f1f5f9;
+                .expand-btn {
+                    background: none;
                     border: none;
-                    width: 42px;
-                    height: 42px;
-                    border-radius: 10px;
-                    align-items: center;
-                    justify-content: center;
-                    color: var(--c-text-main);
-                    cursor: pointer;
-                    transition: all 0.2s;
+                    padding: 1rem;
+                    color: #94a3b8;
+                    transition: transform 0.3s;
                 }
-                .mobile-burger:hover {
-                    background: var(--c-primary-light);
-                    color: var(--c-primary);
+                .expand-btn.expanded {
+                    transform: rotate(180deg);
+                    color: #e9496c;
                 }
 
-                @media (max-width: 1024px) {
-                    .desktop-nav, .header-actions {
-                        display: none;
-                    }
-                    .mobile-burger {
-                        display: flex;
-                    }
+                .mobile-submenu {
+                    max-height: 0;
+                    overflow: hidden;
+                    transition: max-height 0.3s ease-out;
+                    background: #f8fafc;
+                    border-radius: 8px;
                 }
-                @media (max-width: 768px) {
-                    .main-header {
-                        height: 72px;
-                    }
-                    .header-container {
-                        padding: 0 1rem;
-                    }
-                    .brand-icon {
-                        width: 56px;
-                        height: 56px;
-                    }
-                    .mobile-burger {
-                        width: 38px;
-                        height: 38px;
-                    }
-                    .drawer-header {
-                        padding: 1rem;
-                    }
-                    .drawer-content {
-                        padding: 0.75rem;
-                    }
-                    .drawer-link {
-                        font-size: 1rem;
-                    }
+                .mobile-submenu.open {
+                    max-height: 800px;
+                    margin-bottom: 1rem;
+                }
+
+                .mobile-sub-group {
+                    padding: 0.5rem 1rem;
+                }
+                .mobile-sub-link {
+                    display: block;
+                    text-decoration: none;
+                    font-weight: 600;
+                    color: #475569;
+                    margin-bottom: 0.5rem;
+                }
+                .mobile-nested-links {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+                    padding-left: 1rem;
+                }
+                .rtl .mobile-nested-links {
+                    padding-left: 0;
+                    padding-right: 1rem;
+                }
+                .mobile-nested-link {
+                    text-decoration: none;
+                    font-size: 0.85rem;
+                    color: #64748b;
+                }
+
+                .sidebar-footer {
+                    padding: 1.5rem;
+                    background: #f8fafc;
+                    border-top: 1px solid #e2e8f0;
+                }
+                .mobile-lang {
+                    display: flex;
+                    gap: 1rem;
+                    margin-bottom: 1rem;
+                }
+                .mobile-lang button {
+                    flex: 1;
+                    padding: 0.6rem;
+                    border: 1px solid #cbd5e1;
+                    background: white;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    color: #64748b;
+                }
+                .mobile-lang button.active {
+                    border-color: #e9496c;
+                    color: #e9496c;
+                    background: #fff0f3;
+                }
+                .mobile-portal-btn {
+                    display: block;
+                    text-align: center;
+                    background: #0f172a;
+                    color: white;
+                    padding: 0.8rem;
+                    border-radius: 12px;
+                    text-decoration: none;
+                    font-weight: 700;
                 }
             `}</style>
         </>
