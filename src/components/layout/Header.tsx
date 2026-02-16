@@ -61,6 +61,7 @@ type HeaderProps = {
 export default function Header({ productCategories }: HeaderProps) {
     const t = useTranslations('Navigation');
     const locale = useLocale();
+    const isRtl = locale === 'ar';
     const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
     const [activeNestedDropdown, setActiveNestedDropdown] = useState<string | null>(null);
     const [activeMobileSub, setActiveMobileSub] = useState<string | null>(null);
@@ -184,7 +185,7 @@ export default function Header({ productCategories }: HeaderProps) {
 
     return (
         <>
-            <header className={`main-header ${isScrolled ? 'scrolled' : ''}`}>
+            <header className={`main-header ${isScrolled ? 'scrolled' : ''} ${isRtl ? 'rtl' : ''}`} dir={isRtl ? 'rtl' : 'ltr'}>
                 <div className="container header-container">
                     <Link href="/" className="brand-logo">
                         <div className="brand-icon">
@@ -555,23 +556,25 @@ export default function Header({ productCategories }: HeaderProps) {
                     right: 0;
                     z-index: 1000;
                     height: 80px;
-                    background: #ffffff;
-                    border-bottom: 1px solid #e2e8f0;
+                    background: rgba(255,255,255,0.9);
+                    -webkit-backdrop-filter: saturate(180%) blur(10px);
+                    backdrop-filter: saturate(180%) blur(10px);
+                    border-bottom: 1px solid rgba(226,232,240,0.8);
                     transition: all 0.3s ease;
                 }
                 .main-header.scrolled {
                     height: 64px;
-                    background: #ffffff;
-                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    background: rgba(255,255,255,0.96);
+                    box-shadow: 0 6px 24px rgba(0,0,0,0.08);
                 }
                 .header-container {
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
                     height: 100%;
-                    max-width: 1400px;
+                    max-width: 1280px;
                     margin: 0 auto;
-                    padding: 0 2rem;
+                    padding: 0 1.5rem;
                 }
 
                 /* --- BRAND --- */
@@ -594,6 +597,10 @@ export default function Header({ productCategories }: HeaderProps) {
                     overflow: hidden;
                     box-shadow: none;
                     transition: transform 0.3s var(--ease-elastic);
+                }
+                .main-header.scrolled .brand-icon {
+                    width: 56px;
+                    height: 56px;
                 }
                 .brand-logo.mobile {
                     gap: 0;
@@ -621,7 +628,7 @@ export default function Header({ productCategories }: HeaderProps) {
                 .desktop-nav {
                     display: flex;
                     align-items: center;
-                    gap: 1.5rem;
+                    gap: 1.25rem;
                     height: 100%;
                     position: relative;
                 }
@@ -629,13 +636,18 @@ export default function Header({ productCategories }: HeaderProps) {
                     position: absolute;
                     bottom: 15px;
                     left: 0;
-                    height: 35px;
+                    height: 36px;
                     background: rgba(233, 73, 108, 0.08);
+                    border: 1px solid rgba(233,73,108,0.12);
                     border-radius: 12px;
                     pointer-events: none;
                     transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
                     opacity: 0;
                     z-index: 0;
+                }
+                .main-header.rtl .nav-hover-indicator {
+                    right: 0;
+                    left: auto;
                 }
                 .nav-item-group {
                     height: 100%;
@@ -649,10 +661,10 @@ export default function Header({ productCategories }: HeaderProps) {
                     gap: 0.5rem;
                     text-decoration: none;
                     color: var(--c-text-main);
-                    font-weight: 600;
-                    font-size: 0.95rem;
+                    font-weight: 700;
+                    font-size: 0.96rem;
                     transition: all 0.3s;
-                    padding: 0.5rem 0.75rem;
+                    padding: 0.55rem 0.8rem;
                     border-radius: 10px;
                     position: relative;
                     z-index: 1;
@@ -669,10 +681,14 @@ export default function Header({ productCategories }: HeaderProps) {
                     bottom: -2px;
                     left: 50%;
                     transform: translateX(-50%);
-                width: 4px;
+                    width: 6px;
                     height: 4px;
                     background: var(--c-primary);
                     border-radius: 50%;
+                }
+                .nav-link:focus-visible {
+                    outline: 2px solid rgba(233,73,108,0.4);
+                    outline-offset: 2px;
                 }
                 .chevron {
                     transition: transform 0.3s var(--ease-elastic);
@@ -683,6 +699,9 @@ export default function Header({ productCategories }: HeaderProps) {
                     opacity: 1;
                     color: var(--c-primary);
                 }
+                .main-header.rtl .chevron.rotated {
+                    transform: rotate(-180deg);
+                }
 
                 /* --- DROPDOWNS --- */
                 .dropdown-panel {
@@ -690,15 +709,15 @@ export default function Header({ productCategories }: HeaderProps) {
                     top: calc(100% - 10px);
                     left: 50%;
                     transform: translateX(-50%) translateY(15px);
-                    background: rgba(255, 255, 255, 0.92);
-                    backdrop-filter: blur(24px) saturate(200%);
-                    -webkit-backdrop-filter: blur(24px) saturate(200%);
-                    border-radius: 24px;
+                    background: rgba(255, 255, 255, 0.96);
+                    backdrop-filter: blur(18px) saturate(180%);
+                    -webkit-backdrop-filter: blur(18px) saturate(180%);
+                    border-radius: 20px;
                     box-shadow: 
-                        0 0 0 1px rgba(0,0,0,0.03),
-                        0 20px 40px -10px rgba(0,0,0,0.12),
-                        0 10px 20px -5px rgba(0,0,0,0.05);
-                    padding: 1rem;
+                        0 0 0 1px rgba(0,0,0,0.04),
+                        0 24px 48px -12px rgba(0,0,0,0.14),
+                        0 10px 20px -6px rgba(0,0,0,0.06);
+                    padding: 0.75rem;
                     opacity: 0;
                     visibility: hidden;
                     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -706,7 +725,11 @@ export default function Header({ productCategories }: HeaderProps) {
                     min-width: 280px;
                     pointer-events: none;
                 }
-                
+                .main-header.rtl .dropdown-panel {
+                    right: 50%;
+                    left: auto;
+                    transform: translateX(50%) translateY(15px);
+                }
                 /* Smart alignment for items near screen edges */
                 .nav-item-group:nth-last-child(-n+2) .dropdown-panel {
                     left: auto;
@@ -723,6 +746,9 @@ export default function Header({ productCategories }: HeaderProps) {
                     transform: translateX(-50%) translateY(0);
                     pointer-events: all;
                 }
+                .main-header.rtl .dropdown-panel.open {
+                    transform: translateX(50%) translateY(0);
+                }
 
                 /* Ensure the first and last panels don't use the -50% translateX */
                 .nav-item-group:nth-last-child(-n+2) .dropdown-panel.open {
@@ -737,11 +763,11 @@ export default function Header({ productCategories }: HeaderProps) {
                 }
                 .dropdown-content {
                     display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-                    gap: 0.5rem;
+                    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                    gap: 0.75rem;
                     max-height: calc(100vh - 140px);
                     overflow-y: auto;
-                    padding: 0.5rem;
+                    padding: 0.75rem;
                     scrollbar-width: thin;
                     scrollbar-color: var(--c-primary) transparent;
                 }
@@ -785,9 +811,9 @@ export default function Header({ productCategories }: HeaderProps) {
                     display: flex;
                     align-items: center;
                     gap: 1rem;
-                    padding: 0.85rem 1rem;
+                    padding: 0.9rem 1rem;
                     text-decoration: none;
-                    border-radius: 16px;
+                    border-radius: 14px;
                     transition: all 0.25s var(--ease-out);
                     border: 1px solid transparent;
                 }
@@ -796,6 +822,10 @@ export default function Header({ productCategories }: HeaderProps) {
                     border-color: rgba(233, 73, 108, 0.1);
                     box-shadow: 0 4px 12px -2px rgba(0,0,0,0.04);
                     transform: scale(1.02);
+                }
+                .dropdown-item:focus-visible {
+                    outline: 2px solid rgba(233,73,108,0.35);
+                    outline-offset: 2px;
                 }
                 .item-icon {
                     width: 40px;
@@ -903,9 +933,9 @@ export default function Header({ productCategories }: HeaderProps) {
                 /* Nested Panel */
                 .nested-panel {
                     position: absolute;
-                    left: 100%; 
+                    left: 100%;
                     top: 0;
-                    margin-left: 10px; /* Safe gap from parent */
+                    margin-left: 10px;
                     background: rgba(255, 255, 255, 0.98);
                     backdrop-filter: blur(24px);
                     border-radius: 20px;
@@ -923,6 +953,13 @@ export default function Header({ productCategories }: HeaderProps) {
                     max-height: calc(100vh - 160px);
                     overflow-y: auto;
                     scrollbar-width: none;
+                }
+                .main-header.rtl .nested-panel {
+                    right: 100%;
+                    left: auto;
+                    margin-right: 10px;
+                    margin-left: 0;
+                    transform: translateX(-15px);
                 }
                 .nested-panel::-webkit-scrollbar {
                     display: none;
@@ -982,6 +1019,10 @@ export default function Header({ productCategories }: HeaderProps) {
                     background: var(--c-primary-light);
                     color: var(--c-primary-dark);
                     padding-left: 1.25rem;
+                }
+                .main-header.rtl .nested-link:hover {
+                    padding-left: 1rem;
+                    padding-right: 1.25rem;
                 }
 
                 /* --- BUTTONS --- */
@@ -1092,6 +1133,8 @@ export default function Header({ productCategories }: HeaderProps) {
                     display: flex;
                     flex-direction: column;
                     box-shadow: -10px 0 40px rgba(0,0,0,0.1);
+                    padding-top: env(safe-area-inset-top);
+                    padding-bottom: env(safe-area-inset-bottom);
                 }
                 .mobile-overlay.active .mobile-drawer {
                     transform: translateX(0);
