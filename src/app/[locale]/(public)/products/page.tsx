@@ -77,7 +77,7 @@ export default async function ProductsPage() {
                         }}>
                             <div style={{ position: 'relative', height: '400px' }}>
                                 <Image 
-                                    src="/images/plant_production.webp" 
+                                    src="/images/about/plant_production.webp" 
                                     alt={t('agriTitle')} 
                                     fill 
                                     style={{ objectFit: 'cover' }} 
