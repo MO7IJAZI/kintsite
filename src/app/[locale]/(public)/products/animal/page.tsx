@@ -82,7 +82,7 @@ export default async function AnimalProductsPage() {
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', marginBottom: '1rem' }}>
                         <Tractor size={32} color="#3b82f6" />
                         <h1 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, margin: 0 }}>
-                            {tNav('prodAnimal')}
+                            {tNav('animalProducts')}
                         </h1>
                     </div>
                     <p style={{ color: 'var(--muted-foreground)', fontSize: '1.1rem', maxWidth: '600px', margin: '0 auto' }}>

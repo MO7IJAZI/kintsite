@@ -8,6 +8,8 @@ export const revalidate = 300;
 export default async function BlogPage({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
     const t = await getTranslations('Blog');
+    // @ts-ignore
+    const fallbackItems = t.raw?.('BlogFallback.items') || [];
     const isRtl = locale === 'ar';
 
     let posts: any[] = [];
@@ -58,11 +60,26 @@ export default async function BlogPage({ params }: { params: Promise<{ locale: s
                             </div>
                         );
                     })}
-                    {posts.length === 0 && (
+                    {posts.length === 0 && fallbackItems.length === 0 && (
                         <div style={{ textAlign: 'center', padding: '5rem 0', color: 'var(--muted-foreground)' }}>
                             {t('noArticles')}
                         </div>
                     )}
+                    {posts.length === 0 && fallbackItems.length > 0 && fallbackItems.map((item: any, idx: number) => (
+                        <a key={`fallback-${idx}`} href={item.link} className="card" style={{ textDecoration: 'none', color: 'inherit' }} target="_blank" rel="noopener noreferrer">
+                            <div style={{ position: 'relative', height: '100%', minHeight: '220px' }}>
+                                <Image src={item.image || '/images/hero.png'} alt={item.title} fill style={{ objectFit: 'cover' }} />
+                            </div>
+                            <div style={{ padding: '2rem' }}>
+                                <div style={{ color: 'var(--primary)', fontWeight: '600', marginBottom: '0.75rem', fontSize: '0.875rem' }}>
+                                    {item.date || ''}
+                                </div>
+                                <h3 style={{ fontSize: '1.5rem', marginBottom: '0.75rem' }}>{item.title}</h3>
+                                <p style={{ color: 'var(--muted-foreground)', marginBottom: '1rem' }}>{item.excerpt}</p>
+                                <span style={{ color: 'var(--primary)', fontWeight: 700 }}>{t('readMore')}</span>
+                            </div>
+                        </a>
+                    ))}
                 </div>
             </div>
         </div>

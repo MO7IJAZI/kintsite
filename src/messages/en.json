@@ -1152,6 +1152,47 @@
     "downloadBoxDesc": "Mixing Table Guide",
     "downloadBtn": "Download PDF"
   },
+  "BlogFallback": {
+    "items": [
+      {
+        "title": "Meet KINT at MACFRUT 2025",
+        "excerpt": "We invite you to visit KINT at MACFRUT, Rimini Expo Centre.",
+        "date": "6–8 May 2025",
+        "link": "/blog",
+        "image": "/images/hero.png"
+      },
+      {
+        "title": "R&D Focus at KINT: Biotechnology for Sustainable Agriculture",
+        "excerpt": "KINT’s research centres develop formulations and micronutrient technologies supporting crop efficiency and food safety.",
+        "link": "/about/rd-centre",
+        "image": "/images/hero.png"
+      }
+    ]
+  },
+  "ExpertsForumFallback": {
+    "items": [
+      {
+        "title": "Micronutrients and Balanced Fertilization",
+        "excerpt": "How precise micronutrient management supports yield and quality across crops.",
+        "link": "/crop-farming"
+      },
+      {
+        "title": "Biostimulation in Stress Conditions",
+        "excerpt": "Foliar biostimulants and physiological support during drought, heat or salinity.",
+        "link": "/crop-farming"
+      },
+      {
+        "title": "Safe Food and Post-harvest Quality",
+        "excerpt": "Practices that protect produce and reduce residues in line with EU priorities.",
+        "link": "/crop-farming"
+      }
+    ]
+  },
+  "About": {
+    "certificatesTitle": "Certificates",
+    "certificatesSubtitle": "Our quality and safety standards confirmed by independent bodies.",
+    "noCertificates": "No certificates available at the moment."
+  },
   "HomeNew": {
     "innovation": "Innovation in Agriculture",
     "heroTitle": "Unlocking Plant & Animal Potential",

@@ -120,6 +120,8 @@ export default async function ExpertsForumPage({ params }: { params: Promise<{ l
     const t = await getTranslations('ExpertsForum');
     const isRtl = locale === 'ar';
     const { arable, fruit, vegetable } = await getExpertArticlesByCategory();
+    // @ts-ignore
+    const fallbackItems = t.raw?.('ExpertsForumFallback.items') || [];
 
     return (
         <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }} dir={isRtl ? 'rtl' : 'ltr'}>
@@ -184,9 +186,36 @@ export default async function ExpertsForumPage({ params }: { params: Promise<{ l
                 />
                 
                 {arable.length === 0 && fruit.length === 0 && vegetable.length === 0 && (
-                     <div style={{ textAlign: 'center', padding: '4rem', color: '#64748b' }}>
-                        <p>{t('noArticles')}</p>
-                     </div>
+                    <>
+                        {fallbackItems.length === 0 ? (
+                            <div style={{ textAlign: 'center', padding: '4rem', color: '#64748b' }}>
+                                <p>{t('noArticles')}</p>
+                            </div>
+                        ) : (
+                            <section style={{ marginTop: '1rem' }}>
+                                <div style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                                    gap: '1.5rem'
+                                }}>
+                                    {fallbackItems.map((item: any, idx: number) => (
+                                        <a key={`expert-fallback-${idx}`} href={item.link} target="_blank" rel="noopener noreferrer" className="article-card" style={{ textDecoration: 'none', color: 'inherit' }}>
+                                            <div className="article-card-image">
+                                                <Image src={item.image || '/images/hero.png'} alt={item.title} fill style={{ objectFit: 'cover' }} />
+                                            </div>
+                                            <div className="article-card-content">
+                                                <h3 className="article-card-title">{item.title}</h3>
+                                                <p className="article-card-excerpt">{item.excerpt}</p>
+                                                <span className="article-card-link" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
+                                                    {t('readMore')} {isRtl ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
+                                                </span>
+                                            </div>
+                                        </a>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+                    </>
                 )}
 
             </div>
