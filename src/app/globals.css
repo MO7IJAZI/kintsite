@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Inter:wght@100..900&family=Outfit:wght@100..900&display=swap');
 
 :root {
   /* Brand Colors - Premium Agricultural Identity */
@@ -27,8 +27,10 @@
 
   /* Typography */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
   --font-heading: 'Outfit', sans-serif;
   --font-arabic: 'Cairo', system-ui, -apple-system, sans-serif;
+  --font-cairo: 'Cairo', system-ui, -apple-system, sans-serif;
 
   /* Spacing Scale - Professional 4px/8px based system */
   --space-1: 0.25rem;  /* 4px */

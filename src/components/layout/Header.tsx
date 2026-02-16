@@ -100,7 +100,6 @@ export default function Header({ productCategories }: HeaderProps) {
         setActiveDropdown(null);
     }, [pathname]);
 
-    /* --- DATA PREP --- */
     const switchLocale = (nextLocale: string) => {
         router.replace(pathname, { locale: nextLocale });
     };
