@@ -38,7 +38,7 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${inter.variable} ${outfit.variable} ${cairo.variable}`}>
+    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'} className={`${inter.variable} ${outfit.variable} ${cairo.variable}`}>
       <body className={locale === 'ar' ? 'font-arabic' : 'font-latin'}>
         <NextIntlClientProvider messages={messages}>
           {children}
