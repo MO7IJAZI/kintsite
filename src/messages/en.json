@@ -154,5 +154,25 @@
     "settings": "Settings",
     "backToSite": "Back to Site",
     "logout": "Logout"
+  },
+  "HomeNew": {
+    "innovation": "Innovation for Growth",
+    "heroTitle": "Integrated Agricultural Solutions",
+    "heroSubtitle": "Transform your agricultural enterprise with KINT's premium products and expert guidance.",
+    "heroCta": "Get in Touch",
+    "discoverMore": "Discover More",
+    "ourProducts": "Our Products",
+    "whatWeOffer": "What We Offer",
+    "prodPlant": "Plant Production",
+    "agriculturalDesc": "A wide range of fertilizers, biostimulants, and crop protection solutions to enhance productivity and quality.",
+    "viewProducts": "View Products",
+    "prodAnimal": "Animal Production",
+    "animalDesc": "Specialized nutritional supplements and health solutions for poultry, ruminants, and swine.",
+    "whyUs": "Why Us",
+    "whyUsSubtitle": "Your Trusted Partner in Agriculture",
+    "whyUsDesc": "We combine scientific research with practical application to provide effective and sustainable solutions for farmers worldwide.",
+    "whyUsPoint1": "Certified High-Quality Products",
+    "whyUsPoint2": "Expert Technical Support",
+    "whyUsPoint3": "Commitment to Sustainability"
   }
 }
