@@ -85,7 +85,22 @@
     "noDocuments": "No technical documents available yet.",
     "needSupport": "Need Support?"
   },
+  "ContactPage": {
+    "titlePart1": "Get in",
+    "titlePart2": "Touch",
+    "title": "Contact Us",
+    "subtitle": "Get in touch with us for any inquiries or support."
+  },
   "Contact": {
+    "fullName": "Full Name",
+    "emailAddress": "Email Address",
+    "department": "Department",
+    "generalInquiry": "General Inquiry",
+    "exportDepartment": "Export Department",
+    "localRepresentatives": "Local Representatives",
+    "technicalSupport": "Technical Support",
+    "phoneNumber": "Phone Number",
+    "sendMessage": "Send Message",
     "letsGrowTogether": "Let's Grow Together",
     "contactIntro": "Have questions about our biostimulants or specialty fertilizers? Whether you are a professional farmer, a distributor, or a researcher, our team is ready to provide you with the support you need.",
     "globalHeadquarters": "Global Headquarters",
@@ -125,7 +140,9 @@
     "contactUs": "Contact Us",
     "copyright": "All rights reserved © 2026 KINT - Kafri International.",
     "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service"
+    "termsOfService": "Terms of Service",
+    "address": "123 Agriculture Avenue, Innovation Park, 00-001 Warsaw, Poland",
+    "rightsReserved": "All rights reserved © 2026 KINT - Kafri International."
   },
   "NotFound": {
     "title": "Page Not Found",
@@ -155,6 +172,47 @@
     "backToSite": "Back to Site",
     "logout": "Logout"
   },
+  "OptimumConditions": {
+    "breadcrumb": "Optimum Conditions",
+    "title": "Optimum Conditions for Foliar Treatments",
+    "subtitle": "Ensure maximum efficacy by applying treatments under ideal environmental conditions.",
+    "download": {
+      "desc": "Download our comprehensive guide for detailed instructions.",
+      "button": "Download Guide"
+    },
+    "humidity": {
+      "title": "Humidity",
+      "optimum": "Optimum: 60-80%",
+      "desc1": "High humidity slows down droplet evaporation, allowing more time for absorption.",
+      "desc2": "Avoid spraying when humidity is very low (<40%) as droplets dry too quickly."
+    },
+    "temperature": {
+      "title": "Temperature",
+      "optimum": "Optimum: 15-25°C",
+      "desc1": "Moderate temperatures are ideal for absorption.",
+      "desc2": "Avoid spraying above 25°C to prevent rapid evaporation and potential leaf burn.",
+      "desc3": "Avoid spraying below 10°C as plant metabolism slows down."
+    },
+    "sunlight": {
+      "title": "Sunlight",
+      "badge": "Avoid direct sunlight",
+      "desc": "Spray during cloudy days or early morning/late afternoon to avoid rapid drying and UV degradation."
+    },
+    "wind": {
+      "title": "Wind",
+      "badge": "Low wind speed",
+      "desc": "Spray when wind is calm to prevent drift and ensure uniform coverage."
+    },
+    "waterTemperature": {
+      "title": "Water Temperature",
+      "optimum": "Optimum: Ambient",
+      "desc": "Use water at ambient temperature to avoid thermal shock to the plants."
+    },
+    "bestTime": {
+      "title": "Best Time to Spray",
+      "desc": "Early morning (after dew dries) or late afternoon are the best times for foliar applications."
+    }
+  },
   "HomeNew": {
     "innovation": "Innovation for Growth",
     "heroTitle": "Integrated Agricultural Solutions",
@@ -173,6 +231,30 @@
     "whyUsDesc": "We combine scientific research with practical application to provide effective and sustainable solutions for farmers worldwide.",
     "whyUsPoint1": "Certified High-Quality Products",
     "whyUsPoint2": "Expert Technical Support",
-    "whyUsPoint3": "Commitment to Sustainability"
+    "whyUsPoint3": "Commitment to Sustainability",
+    "innovationTitle": "Innovation",
+    "innovationDesc": "Leading the way with advanced agricultural technologies.",
+    "qualityTitle": "Quality",
+    "qualityDesc": "Rigorous standards for superior product performance.",
+    "globalTitle": "Global Presence",
+    "globalDesc": "Connecting with farmers across continents.",
+    "ourMission": "Our Mission",
+    "missionDesc": "To empower sustainable agriculture through innovation.",
+    "articlesSubtitle": "Latest Insights",
+    "ourArticles": "Our Articles",
+    "noNews": "No articles available at the moment.",
+    "agriEng": "Agricultural Engineer",
+    "ourTeam": "Our Team",
+    "teamSubtitle": "Meet the experts dedicated to your success.",
+    "ourAgents": "Our Agents",
+    "agentsSubtitle": "Authorized partners worldwide."
+  },
+  "ProductsForAnimals": {
+    "title": "Products for Animals",
+    "subtitle": "Specialized solutions for livestock health and productivity."
+  },
+  "MixingTable": {
+    "title": "Mixing Table",
+    "description": "Compatibility guide for tank mixes."
   }
 }

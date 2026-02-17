@@ -2,8 +2,6 @@ import ContactForm from "@/components/ContactForm";
 import { Suspense } from "react";
 import { getTranslations } from 'next-intl/server';
 
-export const dynamic = 'force-static';
-
 export default async function ContactPage({ params }: { params: Promise<{ locale: string }> }) {
     const { locale } = await params;
     const t = await getTranslations('Contact');

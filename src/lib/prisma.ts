@@ -1,5 +1,14 @@
 import { PrismaClient } from "@prisma/client";
 
+// Ensure environment variables are loaded
+if (!process.env.DATABASE_URL) {
+  try {
+    require('dotenv').config();
+  } catch (e) {
+    // dotenv might not be available or needed in some environments
+  }
+}
+
 const prismaClientSingleton = () => {
   return new PrismaClient();
 };
